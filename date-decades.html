@@ -1,0 +1,63 @@
+
+
+<polymer-element name="date-decades" attributes="first,last">
+    <template>
+        <style>
+            *{font-family: sans-serif;}
+            ::-webkit-scrollbar{height:10px;}
+/*            ::-webkit-scrollbar-button{display: none;}*/
+            .decades{
+                display: block;
+                height: 80px;
+                width: 200px;
+                overflow-x: scroll;
+                overflow-y: hidden;
+/*                border: 1px solid silver;*/
+                white-space: nowrap;
+            }
+            .decade{display: inline-block; height:60px; border:0px solid silver; position: relative; margin-right: 30px;}
+            .base{background: #ddd; display: inline-block; -webkit-transform: rotate(270deg);-webkit-transform-origin:-110% -220%;font-size: 20px;}
+            .years{margin-left:-20px;display: inline-block; -webkit-column-count: 3;-webkit-column-width: 10px; border:0px solid red; height:100%;width:100px;}
+            .year{display: block;}
+        </style>
+        <div class='decades'>
+        <template repeat="{{decade in decades}}">
+            <div class='decade'>
+<!--                <div class='base'>{{decade.base[0]}} {{decade.base[1]}} {{decade.base[2]}} {{decade.base[3]}}</div>-->
+                <div class='base'>{{decade.base}}</div>
+                <div class='years'>
+                    <template repeat="{{year in decade.years}}">
+                        <span class='year'>'{{year}}</span>
+                    </template>
+                </div>
+            </div>      
+        </template>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            ready:function(){
+                if(!this.first) this.first = 1900;
+                if(!this.last) this.last = 2050;
+                this.build();
+            },
+            build:function(){
+                this.decades = [];
+                var decades = Math.floor((this.last-this.first)/10);
+                console.log('decades',decades);
+                for(var i=0;i<decades; i++){
+                    var decade = this.first+(i*10);
+//                    console.log('decade',decade);
+                    var add = {base:decade+'',years:[]};
+                    for(var j=1;j<10;j++)
+                        add.years.push((decade+j+'').substr(2));
+                    this.decades.push(add);
+//                    console.log('years',add.years);
+//                    if(i%10 == 0) this.list.push( i );
+//                    else this.list.push( i%100 );
+                }
+            }
+        });
+    </script>
+</polymer-element>
+    

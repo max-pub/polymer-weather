@@ -1,0 +1,18 @@
+
+<polymer-element name="sky-week" attributes="data">
+    <template>
+        <style>
+        </style>
+        
+        <div class='week'>
+            <template repeat="{{hour in [1,2,3,4,5,1,2]}}">
+                <sky-day></sky-day>
+            </template>
+        </div>      
+    </template>
+    <script>
+        Polymer({
+        });
+    </script>
+</polymer-element>
+    

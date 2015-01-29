@@ -1,0 +1,101 @@
+
+
+<polymer-element name="date-month" attributes="date,showDayNames,showWeekNumbers">
+    <template>
+        <style>
+            *{font-family: sans-serif;}
+            td{text-align: right;}
+            .dayName{color:gray;}
+            .weekNumber{color:gray;}
+            .Sat{color:gray;}
+            .Sun{color:gray;}
+            .selected{background:silver;}
+            .offMonth{color:#ddd;}
+        </style>
+        
+        <table class='month'>
+            <tr class='days'>
+                <template if="{{showWeekNumbers}}">
+                    <td></td>
+                </template>
+                <template if="{{showDayNames}}" repeat="{{day in days}}">
+                    <td class='dayName'>{{day}}</td>
+                </template>
+            </tr>
+            <template repeat="{{week in weeks}}">
+                <tr class='week'>
+                    <template if="{{showWeekNumbers}}">
+                        <td class='weekNumber'>{{week.number}}</td>
+                    </template>
+                    <template repeat="{{day in week.days}}">
+                        <td class='day {{day.name}} {{day.offMonth?"offMonth":""}} {{day.selected?"selected":""}}'>{{day.number}}</td>
+                    </template>
+                </tr>
+            </template>
+        </table>      
+    </template>
+    <script>
+        Polymer({
+            days: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+            
+            ready: function(){
+                if(this.date)
+                    this.date = new Date(Date.parse(this.date));
+                else   
+                    this.date = new Date();
+                console.log('ready',this.date);
+                this.build();
+            },
+            
+            dateChanged: function(alt,neu){
+                var tmp = new Date(Date.parse(neu));
+                if(tmp == alt) return;
+                console.log('change',this.date);
+                this.build();
+            },
+            
+            build: function(){
+                this.weeks = [];
+                var date = new Date(this.date);
+                date.setDate(1);
+                var baseWeek = this.getWeekNumber(date);
+                var baseMonth = date.getMonth();
+                var nextMonth = new Date(date.getFullYear(),date.getMonth()+1,1).getMonth();
+                var weekDiff = this.getWeekDay(date);
+                date.setDate(date.getDate()-weekDiff-1);
+                while(1){
+                    date.setDate(date.getDate()+1);
+                    if( (date.getMonth()==nextMonth) && (this.getWeekDay(date)==0) )break;
+                    var week = this.getWeekNumber(date)-baseWeek;
+                    if(!this.weeks[week])
+                        this.weeks[week] = {number:this.getWeekNumber(date), days:[]};
+                    var add = {number:date.getDate(), 
+                               name:this.days[this.getWeekDay(date)], 
+                               offMonth:(date.getMonth()!=baseMonth), 
+                               date:this.getDateString(date), 
+                               selected:(this.getDateString(date)==this.getDateString(this.date)) 
+                              };
+                    this.weeks[week].days[this.getWeekDay(date)] = add;
+                }
+            },
+            
+            getWeekDay:function(date){
+                return (date.getDay()+6)%7;
+            },
+            
+            //http://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
+            getWeekNumber: function(date){
+                var d = new Date(date);
+                d.setHours(0,0,0);
+                d.setDate(d.getDate()+4-(d.getDay()||7));
+                return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
+            },
+            
+            getDateString:function(date){
+                return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
+            }
+                
+        });
+    </script>
+</polymer-element>
+    
