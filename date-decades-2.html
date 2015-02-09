@@ -1,77 +1,53 @@
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
 
 
-<polymer-element name="date-decades-2" attributes="year">
+<polymer-element name="date-decades-2" attributes="year,decade">
     <template>
         <style>
-            *{font-family: sans-serif;}
+            *{
+                font-family: sans-serif;
+            }
             table{
                 position: relative;
             }
             .years{  
-/*                border:1px solid red; */
-/*                height:100%; */
-/*                width:90%;*/
-/*                width: 140px;*/
             }
             .year{
                 margin-left:3px;
                 font-size: 11px;
             }
-            .currentDecade{
-                font-weight: bold;
-                color: gray;
-                font-size: 11px;
-                text-align: center;
-                display: none;
+            paper-button{
+                min-width: 0px;
             }
-            .lastDecade div, .nextDecade div{
-                position: absolute;
-                font-weight: bold;
-                color: gray;
-/*                background: #ddd; */
-                display: inline-block; 
-                -webkit-transform: rotate(270deg);
-/*                -webkit-transform-origin:-110% -220%;*/
-                font-size: 16px;
+            paper-button /deep/ .button-content{
+                padding:3px;
             }
-            .lastDecade div{
-                top:+20px;
-                left:-10px;
-            }
-            .nextDecade div{
-                top:+20px;
-                right:-10px;
-            }
-            .lastDecade,.nextDecade{
-                width:10px;
+            paper-button[active]{
+                background:silver;
             }
         </style>
         <table><tr>
-            <td></td>
-            <td class='currentDecade'>{{decade}}</td>
-            <td></td>
-            </tr></tr>
-            <td class='lastDecade'>
-<!--                <div>{{decade-10}}</div>-->
-                <core-icon icon="image:navigate-before" on-tap="{{lastDecade}}"></core-icon>
+            <td class='lastDecade' rowspan='2'>
+                <paper-icon-button icon="image:navigate-before" on-mousedown="{{lastDecade}}"></paper-icon-button>
             </td>
             <td class='years'>
-                <template repeat="{{year in years}}">
-<!--                    <span class='year'>{{year2(year)}}</span>-->
-                    <span class='year'>{{year}}</span>
+                <template repeat="{{year4 in years}}">
+                    <paper-button class="year" active="{{year4==year}}" on-mousedown="{{setYear}}" year="{{year4}}">{{year4}}</paper-button>
                 </template>
             </td>
-            <td class='nextDecade'>
-                <core-icon icon="image:navigate-next" on-tap="{{nextDecade}}"></core-icon>
-<!--                <div>{{decade+10}}</div>-->
+            <td class='nextDecade' rowspan='2'>
+                <paper-icon-button icon="image:navigate-next" on-mousedown="{{nextDecade}}"></paper-icon-button>
             </td>
         </tr></table>
     </template>
     <script>
         Polymer({
             ready:function(){
-                this.decade = Math.floor(new Date().getFullYear()/10)*10;
+                this.year = new Date().getFullYear();
+                this.decade = Math.floor(this.year/10)*10;
                 this.build();
+                SEE=this;
             },
             build:function(){
                 this.years = [];
@@ -89,6 +65,10 @@
             nextDecade:function(){
                 this.decade+=10;
                 this.build();
+            },
+            setYear: function(event,success,element){
+//                this.$['b_'+this.year].toggle();
+                this.year = element.getAttribute('year');
             }
         });
     </script>

@@ -1,3 +1,53 @@
+            .currentDecade{
+                font-weight: bold;
+                color: gray;
+                font-size: 11px;
+                text-align: center;
+                display: none;
+            }
+            .lastDecade div, .nextDecade div{
+                position: absolute;
+                font-weight: bold;
+                color: gray;
+/*                background: #ddd; */
+                display: inline-block; 
+                -webkit-transform: rotate(270deg);
+/*                -webkit-transform-origin:-110% -220%;*/
+                font-size: 16px;
+            }
+            .lastDecade div{
+                top:+20px;
+                left:-10px;
+            }
+            .nextDecade div{
+                top:+20px;
+                right:-10px;
+            }
+            .lastDecade,.nextDecade{
+                width:10px;
+            }
+        <table><tr>
+            <td>{{YEAR}}</td>
+            <td class='currentDecade'>{{decade}}</td>
+            <td></td>
+            </tr></tr>
+            <td class='lastDecade'>
+<!--                <div>{{decade-10}}</div>-->
+                <paper-icon-button icon="image:navigate-before" on-mousedown="{{lastDecade}}"></paper-icon-button>
+            </td>
+            <td class='years'>
+                <template repeat="{{year in years}}">
+<!--                    <span class='year'>{{year2(year)}}</span>-->
+                    <paper-button class="year" active="{{year==YEAR}}" on-mousedown="{{setYear}}" year="{{year}}">{{year}}</paper-button>
+                </template>
+            </td>
+            <td class='nextDecade'>
+                <paper-icon-button icon="image:navigate-next" on-mousedown="{{nextDecade}}"></paper-icon-button>
+<!--                <div>{{decade+10}}</div>-->
+            </td>
+        </tr></table>
+
+
 
 
 <polymer-element name="date-decades" attributes="first,last">

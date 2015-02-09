@@ -1,6 +1,6 @@
 
 
-<polymer-element name="date-months" attributes="date,showDayNames,showWeekNumbers">
+<polymer-element name="date-months" attributes="month,months">
     <template>
         <style>
             *{
@@ -11,50 +11,40 @@
                 padding-right: 3px;
                 font-size: 12px;
             }
+            paper-button{
+                min-width: 0px;
+            }
+            paper-button /deep/ .button-content{
+                padding:3px;
+            }
+            [active]{
+                background:silver;
+            }
         </style>
         
         <table class='months'>
             <tr>
-                <td>Jan</td>
-                <td>Feb</td>
-                <td>Mar</td>
-                <td>Apr</td>
-                <td>May</td>
-                <td>Jun</td>
+                <template repeat="{{mon,index in months1}}">
+                    <td>
+                        <paper-button active="{{index+1==month}}">{{mon}}</paper-button>
+                    </td>
+                </template>
+                </tr><tr>
+                <template repeat="{{mon,index in months2}}">
+                    <td>
+                        <paper-button active="{{mon==month}}">{{mon}}</paper-button>
+                    </td>
+                </template>
             </tr>
-            <tr>
-                <td>Jul</td>
-                <td>Aug</td>
-                <td>Sep</td>
-                <td>Oct</td>
-                <td>Nov</td>
-                <td>Dec</td>
-            </tr>
-<!--
-            <tr>
-                <td>Jan</td>
-                <td>Apr</td>
-                <td>Jul</td>
-                <td>Oct</td>
-            </tr>
-            <tr>
-                <td>Feb</td>
-                <td>May</td>
-                <td>Aug</td>
-                <td>Nov</td>
-            </tr>
-            <tr>
-                <td>Mar</td>
-                <td>Jun</td>
-                <td>Sep</td>
-                <td>Dec</td>
-            </tr>
--->
         </table>      
     </template>
     <script>
         Polymer({
+            months: 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec'.split(','),
             ready: function(){
+                this.month = new Date().getMonth()+1;
+                this.months1 = this.months.slice(0,6);
+                this.months2 = this.months.slice(6);
                 this.build();
             },
             

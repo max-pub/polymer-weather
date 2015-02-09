@@ -3,7 +3,7 @@
 
 <head>
 
-  <title>Polymer</title>
+  <title>Date Components</title>
 
   <meta name="viewport"
     content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
@@ -23,13 +23,17 @@
 </head>
     
 <body>
-    <div style='border:1px solid silver;width:220px;'>
-        <date-decades-2></date-decades-2>
+    <template is='auto-binding'>
+    <div style='border:1px solid silver;width:300px;'>
+        {{year}}-{{month}}
         <hr/>
-        <date-months></date-months>
+        <date-decades-2 year="{{year}}"></date-decades-2>
+        <hr/>
+        <date-months month="{{month}}"></date-months>
         <hr/>
         <date-month date='2011-5-15' showDayNames='true'></date-month>
     </div>
+    </template>
 <!--
     <br/>
     <br/>

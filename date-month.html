@@ -11,6 +11,15 @@
             .Sun{color:gray;}
             .selected{background:silver;}
             .offMonth{color:#ddd;}
+            paper-button{
+                min-width: 0px;
+            }
+            paper-button /deep/ .button-content{
+                padding:3px;
+            }
+            [active]{
+                background:silver;
+            }
         </style>
         
         <table class='month'>
@@ -28,7 +37,9 @@
                         <td class='weekNumber'>{{week.number}}</td>
                     </template>
                     <template repeat="{{day in week.days}}">
-                        <td class='day {{day.name}} {{day.offMonth?"offMonth":""}} {{day.selected?"selected":""}}'>{{day.number}}</td>
+                        <td class='day {{day.name}} {{day.offMonth?"offMonth":""}} {{day.selected?"selected":""}}'>
+                            <paper-button>{{day.number}}</paper-button>
+                        </td>
                     </template>
                 </tr>
             </template>
