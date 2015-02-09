@@ -1,0 +1,96 @@
+
+
+<polymer-element name="date-decades-2" attributes="year">
+    <template>
+        <style>
+            *{font-family: sans-serif;}
+            table{
+                position: relative;
+            }
+            .years{  
+/*                border:1px solid red; */
+/*                height:100%; */
+/*                width:90%;*/
+/*                width: 140px;*/
+            }
+            .year{
+                margin-left:3px;
+                font-size: 11px;
+            }
+            .currentDecade{
+                font-weight: bold;
+                color: gray;
+                font-size: 11px;
+                text-align: center;
+                display: none;
+            }
+            .lastDecade div, .nextDecade div{
+                position: absolute;
+                font-weight: bold;
+                color: gray;
+/*                background: #ddd; */
+                display: inline-block; 
+                -webkit-transform: rotate(270deg);
+/*                -webkit-transform-origin:-110% -220%;*/
+                font-size: 16px;
+            }
+            .lastDecade div{
+                top:+20px;
+                left:-10px;
+            }
+            .nextDecade div{
+                top:+20px;
+                right:-10px;
+            }
+            .lastDecade,.nextDecade{
+                width:10px;
+            }
+        </style>
+        <table><tr>
+            <td></td>
+            <td class='currentDecade'>{{decade}}</td>
+            <td></td>
+            </tr></tr>
+            <td class='lastDecade'>
+<!--                <div>{{decade-10}}</div>-->
+                <core-icon icon="image:navigate-before" on-tap="{{lastDecade}}"></core-icon>
+            </td>
+            <td class='years'>
+                <template repeat="{{year in years}}">
+<!--                    <span class='year'>{{year2(year)}}</span>-->
+                    <span class='year'>{{year}}</span>
+                </template>
+            </td>
+            <td class='nextDecade'>
+                <core-icon icon="image:navigate-next" on-tap="{{nextDecade}}"></core-icon>
+<!--                <div>{{decade+10}}</div>-->
+            </td>
+        </tr></table>
+    </template>
+    <script>
+        Polymer({
+            ready:function(){
+                this.decade = Math.floor(new Date().getFullYear()/10)*10;
+                this.build();
+            },
+            build:function(){
+                this.years = [];
+                for(var i=0;i<10;i++)
+                    this.years.push(this.decade+i);
+                console.log(this.decade,this.years);
+            },
+            year2:function(year){
+                return (year+'').substr(2);
+            },
+            lastDecade:function(){
+                this.decade-=10;
+                this.build();
+            },
+            nextDecade:function(){
+                this.decade+=10;
+                this.build();
+            }
+        });
+    </script>
+</polymer-element>
+    

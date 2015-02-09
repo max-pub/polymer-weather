@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>Maps</title>
+
+  <meta name="viewport"
+    content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <link rel="import" href="bower_components/core-icons/core-icons.html">
+    <link rel="import" href="bower_components/core-icons/maps-icons.html">
+    <link rel="import" href="bower_components/core-icons/image-icons.html">
+    <link rel="import" href="lat-lon.html">
+    <link rel="import" href="bower_components/google-map/google-map.html">
+
+</head>
+    
+<body>
+    
+
+
+<polymer-element name="custom-map" attributes="lat,lon">
+    <template>
+        <style>
+        header{
+          position: absolute;
+          left:0;
+          top:0;
+          right:0;
+          height:30px;
+            background:#424242;
+            padding:3px;
+        }
+        header core-icon{
+            color:white;
+        }
+        header b{
+            color: white;
+            font-family: Helvetica;
+        }
+      google-map {
+/*        height: 600px;*/
+          position: absolute;
+          left:0;
+          top:30px;
+          right:0;
+          bottom:0;
+      }
+        </style>
+        
+        <lat-lon position='{{pos}}'></lat-lon>
+        
+        <header>
+            <b>Maps</b>
+            <core-icon icon="add-circle" on-tap="{{zoomIn}}"></core-icon>
+            <core-icon icon="remove-circle" on-tap="{{zoomOut}}"></core-icon>
+            <core-icon icon="maps:directions-car" on-tap="{{setType}}" type='roadmap'></core-icon>
+            <core-icon icon="maps:terrain" on-tap="{{setType}}" type='terrain'></core-icon>
+            <core-icon icon="image:photo-camera" on-tap="{{setType}}" type='satellite'></core-icon>
+        </header>
+        
+        <google-map mapType="{{mapType}}" disableDefaultUI latitude="{{pos.lat}}" longitude="{{pos.lon}}" zoom="{{zoom}}">
+            <google-map-marker latitude="{{pos.ip.lat}}" longitude="{{pos.ip.lon}}" title="geoIP" icon='gps25.png'>IP</google-map-marker>
+            <google-map-marker latitude="{{pos.gps.lat}}" longitude="{{pos.gps.lon}}" title="GPS" icon='gps25.png'>GPS</google-map-marker>
+        </google-map>
+    </template>
+    <script>
+        Polymer({
+            ready:function(){
+                this.mapType = 'terrain';
+                this.lat = 0;
+                this.lon = 0;
+                this.zoom = 10;
+//                this.url = '';
+//                this.$.ajax.go();
+            },
+            zoomIn:function(){
+                this.zoom += 1;
+            },
+            zoomOut:function(){
+                this.zoom -= 1;
+            },
+            setType: function(event,success,element){
+                this.mapType = element.getAttribute('type');
+            }
+        });
+    </script>
+</polymer-element>
+    
+    
+    
+    
+    
+        <custom-map id='map'></custom-map>
+</body>
+</html>

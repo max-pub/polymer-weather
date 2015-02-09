@@ -1,0 +1,67 @@
+
+
+<polymer-element name="date-months" attributes="date,showDayNames,showWeekNumbers">
+    <template>
+        <style>
+            *{
+                font-family: sans-serif;
+            }
+            td{
+                padding-left: 3px;
+                padding-right: 3px;
+                font-size: 12px;
+            }
+        </style>
+        
+        <table class='months'>
+            <tr>
+                <td>Jan</td>
+                <td>Feb</td>
+                <td>Mar</td>
+                <td>Apr</td>
+                <td>May</td>
+                <td>Jun</td>
+            </tr>
+            <tr>
+                <td>Jul</td>
+                <td>Aug</td>
+                <td>Sep</td>
+                <td>Oct</td>
+                <td>Nov</td>
+                <td>Dec</td>
+            </tr>
+<!--
+            <tr>
+                <td>Jan</td>
+                <td>Apr</td>
+                <td>Jul</td>
+                <td>Oct</td>
+            </tr>
+            <tr>
+                <td>Feb</td>
+                <td>May</td>
+                <td>Aug</td>
+                <td>Nov</td>
+            </tr>
+            <tr>
+                <td>Mar</td>
+                <td>Jun</td>
+                <td>Sep</td>
+                <td>Dec</td>
+            </tr>
+-->
+        </table>      
+    </template>
+    <script>
+        Polymer({
+            ready: function(){
+                this.build();
+            },
+            
+            build: function(){
+            },
+            
+        });
+    </script>
+</polymer-element>
+    

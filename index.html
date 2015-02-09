@@ -12,27 +12,35 @@
 
     <link rel="import" href="bower_components/font-roboto/roboto.html">
     <link rel="import" href="bower_components/paper-input/paper-input.html">
+    <link rel="import" href="bower_components/core-icons/image-icons.html">
     <link rel="import" href="sky-dot.html">
     <link rel="import" href="sky-day.html">
     <link rel="import" href="sky-week.html">
     <link rel="import" href="date-month.html">
+    <link rel="import" href="date-months.html">
     <link rel="import" href="date-decades.html">
+    <link rel="import" href="date-decades-2.html">
 </head>
     
 <body>
-    <div style='border:1px solid silver;width:200px;'>
-        <date-decades></date-decades>
+    <div style='border:1px solid silver;width:220px;'>
+        <date-decades-2></date-decades-2>
         <hr/>
-        <date-month></date-month>
+        <date-months></date-months>
+        <hr/>
+        <date-month date='2011-5-15' showDayNames='true'></date-month>
     </div>
+<!--
     <br/>
     <br/>
     <br/>
     <br/>
-    <date-month date='2011-5-15' showDayNames='true'></date-month>
     <date-month date='2011-6-15' showWeekNumbers='true'></date-month>
     <date-month date='2012-11-15' showWeekNumbers='true' showDayNames='true'></date-month>
     
+        <date-decades></date-decades>
+        <hr/>
+-->
 <!--    <sky-week></sky-week>-->
     
 
