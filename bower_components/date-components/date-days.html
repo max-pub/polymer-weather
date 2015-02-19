@@ -1,6 +1,6 @@
 
 
-<polymer-element name="date-month" attributes="date,showDayNames,showWeekNumbers">
+<polymer-element name="date-days" attributes="year,month,day,dayName,date,showDayNames,showWeekNumbers">
     <template>
         <style>
             *{font-family: sans-serif;}
@@ -36,9 +36,9 @@
                     <template if="{{showWeekNumbers}}">
                         <td class='weekNumber'>{{week.number}}</td>
                     </template>
-                    <template repeat="{{day in week.days}}">
-                        <td class='day {{day.name}} {{day.offMonth?"offMonth":""}} {{day.selected?"selected":""}}'>
-                            <paper-button>{{day.number}}</paper-button>
+                    <template repeat="{{d in week.days}}">
+                        <td class='day {{d.name}} {{d.offMonth?"offMonth":""}}'>
+                            <paper-button active="{{(day==d.number)&&!d.offMonth}}" on-mousedown="{{setDay}}" day="{{d.number}}">{{d.number}}</paper-button>
                         </td>
                     </template>
                 </tr>
@@ -47,21 +47,26 @@
     </template>
     <script>
         Polymer({
+            // {{day.selected?"selected":""}}
             days: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
             
             ready: function(){
-                if(this.date)
-                    this.date = new Date(Date.parse(this.date));
-                else   
-                    this.date = new Date();
-                console.log('ready',this.date);
+                if(!this.year) this.year = new Date().getFullYear();
+                if(!this.month) this.month = new Date().getMonth()+1;
+                if(!this.day) this.day = new Date().getDate();
+                this.setDate();
                 this.build();
             },
-            
-            dateChanged: function(alt,neu){
-                var tmp = new Date(Date.parse(neu));
-                if(tmp == alt) return;
-                console.log('change',this.date);
+            setDate: function(){
+                this.date = new Date(this.year,this.month,this.day); 
+                this.dayName = this.days[this.getWeekDay(this.date)];
+            },
+            yearChanged: function(){
+                this.setDate();
+                this.build();
+            },
+            monthChanged: function(){
+                this.setDate();
                 this.build();
             },
             
@@ -83,12 +88,17 @@
                     var add = {number:date.getDate(), 
                                name:this.days[this.getWeekDay(date)], 
                                offMonth:(date.getMonth()!=baseMonth), 
-                               date:this.getDateString(date), 
-                               selected:(this.getDateString(date)==this.getDateString(this.date)) 
+                               date:this.getDateString(date)
+//                               selected:(this.getDateString(date)==this.getDateString(this.date)) 
                               };
                     this.weeks[week].days[this.getWeekDay(date)] = add;
                 }
             },
+            setDay: function(event,success,element){
+                this.day = element.getAttribute('day');
+                this.setDate();
+            },
+            
             
             getWeekDay:function(date){
                 return (date.getDay()+6)%7;
@@ -106,6 +116,19 @@
                 return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
             }
                 
+//                if(this.date)
+//                    try{ this.date = new Date(Date.parse(this.date)); }
+//                    catch(e){ this.date = new Date(); }
+//                else   
+//                    this.date = new Date();
+//                console.log('ready',this.date);
+//            yearChanged: function(alt,neu){
+////                var tmp = new Date(Date.parse(neu));
+////                if(tmp == alt) return;
+////                console.log('change',this.date);
+////                this.ready();
+//                this.build();
+//            },
         });
     </script>
 </polymer-element>

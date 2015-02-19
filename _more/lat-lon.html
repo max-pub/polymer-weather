@@ -8,7 +8,7 @@
             auto
             url="http://www.telize.com/geoip"
             handleAs="json"
-            on-core-response="{{ipCallback}}">
+            on-core-response="{{geoipCallback}}">
         </core-ajax>
     </template>
     
@@ -31,13 +31,14 @@
                     self.fire('error',err);
                 });
             },
-            ipCallback:function(event,request,element){
+            geoipCallback:function(event,request,element){
                 var response = request.response;
                 this.position.ip.lat = response.latitude;
                 this.position.ip.lon = response.longitude;
                 this.position.ip.raw = response;
 //                console.log('IP:',this.position.ip);
                 this.bestResult();
+                this.fire('geoip',this.position);
             },
             
             bestResult: function(){

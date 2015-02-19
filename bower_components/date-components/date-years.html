@@ -1,8 +1,9 @@
-<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../core-icons/image-icons.html">
 
 
-<polymer-element name="date-decades-2" attributes="year,decade">
+<polymer-element name="date-years" attributes="year,decade">
     <template>
         <style>
             *{
@@ -15,7 +16,10 @@
             }
             .year{
                 margin-left:3px;
-                font-size: 11px;
+                font-size: 12px;
+            }
+            paper-icon-button{
+                padding:0;
             }
             paper-button{
                 min-width: 0px;
@@ -47,7 +51,6 @@
                 this.year = new Date().getFullYear();
                 this.decade = Math.floor(this.year/10)*10;
                 this.build();
-                SEE=this;
             },
             build:function(){
                 this.years = [];

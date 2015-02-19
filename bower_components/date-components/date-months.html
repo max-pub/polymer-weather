@@ -1,6 +1,6 @@
 
 
-<polymer-element name="date-months" attributes="month,months">
+<polymer-element name="date-months" attributes="month,months,monthName">
     <template>
         <style>
             *{
@@ -26,13 +26,13 @@
             <tr>
                 <template repeat="{{mon,index in months1}}">
                     <td>
-                        <paper-button active="{{index+1==month}}">{{mon}}</paper-button>
+                        <paper-button active="{{index+1==month}}" on-mousedown="{{setMonth}}" month="{{index+1}}">{{mon}}</paper-button>
                     </td>
                 </template>
                 </tr><tr>
                 <template repeat="{{mon,index in months2}}">
                     <td>
-                        <paper-button active="{{mon==month}}">{{mon}}</paper-button>
+                        <paper-button active="{{index+7==month}}" on-mousedown="{{setMonth}}" month="{{index+7}}">{{mon}}</paper-button>
                     </td>
                 </template>
             </tr>
@@ -43,6 +43,7 @@
             months: 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec'.split(','),
             ready: function(){
                 this.month = new Date().getMonth()+1;
+                this.monthName = this.months[this.month-1];
                 this.months1 = this.months.slice(0,6);
                 this.months2 = this.months.slice(6);
                 this.build();
@@ -50,6 +51,11 @@
             
             build: function(){
             },
+            setMonth: function(event,success,element){
+//                this.$['b_'+this.year].toggle();
+                this.month = element.getAttribute('month');
+                this.monthName = this.months[this.month-1];
+            }
             
         });
     </script>
