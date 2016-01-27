@@ -1,0 +1,125 @@
+<dom-module id="moon-phase">
+    <style>
+            table {
+            width: 100%;
+        }
+
+        td {
+            text-align: center;
+            width: 11%;
+            overflow: hidden;
+            position: relative;
+            height: 50px;
+        }
+
+        .labels {
+            color: white;
+        }
+
+        .moon {
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            -webkit-border-radius: 100px;
+            background: silver;
+        }
+
+        .moonPhase {
+            position: absolute;
+            display: inline-block;
+            height: 100%;
+            /*            width: 30px;*/
+            /*            padding: 10px;*/
+            background: #222;
+        }
+
+        .values {
+            color: white;
+            font-size: 15px;
+        }
+
+        .moonpic {
+            width: 50px;
+    </style>
+
+
+    <template>
+        <h3>
+            <span>Moon</span>
+            <span>in %</span>
+        </h3>
+        <table>
+            <tr>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>
+                        <span class='moonPhase' style$="left:{{item.overlay.left}}%; right:{{item.overlay.right}}%;"></span>
+                        <img style='width:100%;' src='bin/moon.png' />
+                        <!--                        <span class='moon'></span>-->
+                    </td>
+                </template>
+            </tr>
+            <tr class='values'>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>
+                        {{item.visible}}
+                    </td>
+                </template>
+            </tr>
+
+        </table>
+
+    </template>
+
+
+</dom-module>
+
+
+
+
+
+<script>
+    Polymer({
+        is: "moon-phase",
+        properties: {
+            data: Array,
+            labels: Array
+        },
+
+        created: function () {},
+        ready: function () {
+            //            console.log('rain-prob', data);
+        },
+        relSize: function (value) {
+            return value * 2;
+        },
+        abs: function (val) {
+            return Math.abs(val);
+        },
+        mod: function (val) {
+            return 100 - Math.abs(val);
+        },
+
+    });
+</script>
+
+
+
+
+
+<!--
+<tr class='values'>
+    <template is="dom-repeat" items="{{data}}">
+        <td>{{item.phase}}</td>
+    </template>
+</tr>
+<tr class='values'>
+    <template is="dom-repeat" items="{{data}}">
+        <td>{{item.overlay.left}}-{{item.overlay.right}}</td>
+    </template>
+</tr>-->
+<!--
+<tr class='labels'>
+    <template is="dom-repeat" items="{{labels}}">
+        <td>{{item}}</td>
+    </template>
+</tr>-->

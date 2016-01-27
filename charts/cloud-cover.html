@@ -1,0 +1,90 @@
+<!-- <link rel="import" href="ftp-connection.html"> -->
+<!--<link rel="import" href="file-list.html">-->
+
+<dom-module id="cloud-cover">
+    <style>
+        #drops img {
+            width: 80%;
+        }
+
+        .sun {
+            position: absolute;
+            /*            position: absolute;*/
+        }
+
+        .cloud {
+            /*            position: relative;*/
+            /*            top: -50px;*/
+        }
+
+        td {
+            text-align: center;
+            position: relative;
+        }
+
+        .labels {
+            color: white;
+        }
+
+        .values {
+            color: white;
+            font-size: 15px;
+        }
+    </style>
+
+
+    <template>
+        <h3>
+            <span>Clouds</span>
+            <span>in %</span>
+        </h3>
+        <table id='drops'>
+            <tr>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>
+                        <img src='bin/sun.png' class='sun' style$='opacity:{{reversePercent(item)}};' />
+                        <img src='bin/cloud.png' class='cloud' style$='opacity:{{percent(item)}};' />
+                    </td>
+                </template>
+            </tr>
+            <tr class='values'>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>{{item}}</td>
+                </template>
+            </tr>
+            <!--
+<tr class='labels'>
+    <template is="dom-repeat" items="{{labels}}">
+        <td>{{item}}</td>
+    </template>
+</tr>-->
+        </table>
+
+    </template>
+
+
+</dom-module>
+
+
+
+
+
+<script>
+    Polymer({
+        is: "cloud-cover",
+        properties: {
+            data: Array,
+            labels: Array
+        },
+
+        created: function () {},
+        ready: function () {},
+        percent: function (data) {
+            return data / 100;
+        },
+        reversePercent: function (data) {
+            return (100 - data) / 100;
+        }
+
+    });
+</script>

@@ -1,0 +1,228 @@
+<dom-module id="temp-range">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            text-align: center;
+            width: 11%;
+            overflow: hidden;
+            vertical-align: bottom;
+            margin: 0;
+            padding: 0;
+        }
+
+        .values {
+            color: white;
+            font-size: 15px;
+            display: none;
+        }
+
+        .baseBar {
+            /*            display: block;*/
+            width: 0px;
+            border: 2px solid transparent;
+            /*            margin-left: auto;*/
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tempBar {
+            /*            display: block;*/
+            width: 4px;
+            /*            border: 1px solid white;*/
+            /*            border: 2px solid white;*/
+            /*            margin-left: 47%;*/
+            margin-left: auto;
+            margin-right: auto;
+            /*            margin-right: 47%;*/
+        }
+        /*
+        .min,
+        .max {
+            width: 15px;
+            height: 15px;
+            margin-left: 37%;
+            -webkit-border-radius: 100px;
+            color: transparent;
+        }
+*/
+
+        .minBubble,
+        .maxBubble {
+            font-weight: 800;
+            width: 24px;
+            height: 22px;
+            margin-left: auto;
+            margin-right: auto;
+            /*            margin-left: 30%;*/
+            padding-top: 2px;
+            font-size: 15px;
+            font-weight: bold;
+            -webkit-border-radius: 100px;
+            color: #222;
+        }
+        /*            padding-top: 7px;*/
+        /*            text-shadow: -1px -1px 0 #222, 1px -1px 0 #222, -1px 1px 0 #222, 1px 1px 0 #222;*/
+        /*            text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;*/
+        /*            color: black;*/
+        /*            text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;*/
+        /*            -webkit-text-outline: 1px black;*/
+        /*            -webkit-text-fill-color: white;*/
+        /* Will override color (regardless of order) */
+        /*            -webkit-text-stroke-width: 1px;*/
+        /*            -webkit-text-stroke-color: black;*/
+    </style>
+
+
+    <template>
+        <h3>
+            <span>Temperature</span>
+            <span>in &deg;C</span>
+        </h3>
+        <table>
+            <tr>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>
+                        <div class='maxBubble' style$='background:{{hsla(item.max)}};'>{{value(item.max)}}</div>
+                        <div class='tempBar' style$='height:{{tempBar(item)}}px; background: -webkit-linear-gradient( {{hsla(item.max)}} ,{{hsla(item.min)}} );'></div>
+                        <div class='minBubble' style$='background:{{hsla(item.min)}};'>{{value(item.min)}}</div>
+                        <div class='baseBar' style$='height:{{baseBar(item)}}px;'></div>
+                    </td>
+                </template>
+            </tr>
+        </table>
+
+    </template>
+
+
+</dom-module>
+
+
+
+
+
+<script>
+    Polymer({
+        is: "temp-range",
+        properties: {
+            data: {
+                type: Array,
+                observer: 'dataChange'
+            },
+            labels: Array
+        },
+
+        created: function () {},
+        ready: function () {},
+
+        dataChange: function () {
+            this.unit = 'Celsius';
+            for (var i = 0; i < this.data.length; i++) {
+                this.data[i].min = this.data[i].real.min;
+                this.data[i].max = this.data[i].real.max;
+            }
+            this.setBase();
+        },
+
+        value: function (value) {
+            return Math.round(value);
+        },
+
+        // size...
+        setBase: function () {
+            var base = 100;
+            for (var i = 0; i < this.data.length; i++)
+                if (this.data[i].min < base) base = this.data[i].min;
+                //            console.log('MIN', base);
+            this.base = base;
+            //            return base;
+        },
+        baseBar: function (item) {
+            return Math.abs(item.min - this.base) * 10;
+        },
+        tempBar: function (item) {
+            return Math.abs(item.max - item.min) * 10;
+        },
+
+
+        // coloring...
+        color: function (value) {
+            if (value > 0) return (50 - value);
+            else return 200 - value;
+        },
+        opacity: function (value) {
+            return 1;
+            if (value > 0) return (1 - ((50 - value) / 200));
+            else return (0.75 + (-value / 200));
+        },
+        intensity: function (value) {
+            //            return 1;
+            if (value > 0) return 50 + Math.round((50 - value) / 2);
+            else return 75 - Math.round(-value / 2);
+        },
+        hsla: function (value) {
+            return "hsla(" + this.color(value) + ",100%," + this.intensity(value) + "%," + this.opacity(value) + ")";
+        }
+
+    });
+
+    //            return (80 - (value + 40)) * 3; // with green
+    //            var color = (80 - (value + 40)) * 2;
+    //            if (color > 70) color += 110;
+    //            return color;
+
+    //            for (var i = 0; i < this.data.length; i++) {
+    //                this.data[i].min = i * 10 - 46;
+    //                this.data[i].max = i * 10 - 35;
+    //            }
+
+    //        x: function (i) {
+    //            return this.tempColor((i * 10) - 40);
+    //        },
+
+    //            var last = Math.abs(this.data.slice(-1)[0].sunrise - this.data.slice(-1)[0].sunset);
+    //            console.log('first', first, last, last - first);
+    //            var tmp = this.diff(item.sunrise, item.sunset);
+    //            tmp = tmp.split(':');
+    //            return Math.round(((tmp[0] * 60 + tmp[1] * 1) - 400) / 2 / 1);
+    //            return Math.round(((tmp[0] * 60 + tmp[1] * 1) - 0) / 2 / 5);
+</script>
+
+
+
+<!--
+            <tr class='values'>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>{{item.max}}&deg;</td>
+                </template>
+            </tr>
+-->
+<!--
+            <tr class='values'>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>{{item.min}}&deg;</td>
+                </template>
+            </tr>
+-->
+
+
+
+<!--
+<tr>
+    <template is="dom-repeat" items="{{data}}">
+        <td>{{x(index)}}</td>
+    </template>
+</tr>
+<tr>
+    <template is="dom-repeat" items="{{data}}">
+        <td style$="background:hsl({{x(index)}},100%,50%)">blasdf</td>
+    </template>
+</tr>
+<tr>
+    <template is="dom-repeat" items="{{data}}">
+        <td style$="background:hsl({{tempColor(item)}},100%,50%)">blasdf</td>
+    </template>
+</tr>-->

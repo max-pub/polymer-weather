@@ -1,0 +1,245 @@
+<!-- <link rel="import" href="ftp-connection.html"> -->
+<!--<link rel="import" href="file-list.html">-->
+
+<dom-module id="light-time">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            text-align: center;
+            width: 11%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .labels {
+            color: white;
+        }
+
+        .values {
+            color: white;
+            font-size: 14px;
+        }
+
+        .duration {
+            color: black;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .duration .minutes {
+            color: white;
+        }
+
+        .baseBar {
+            display: block;
+            width: 0px;
+            border: 2px solid darkorange;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .changeBar {
+            display: block;
+            width: 0px;
+            border: 2px solid orange;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bottom {
+            vertical-align: bottom;
+        }
+
+        .top {
+            vertical-align: top;
+        }
+
+        .sun {
+            -webkit-border-radius: 100px;
+            display: inline-block;
+            padding-top: 10px;
+            height: 26px;
+            width: 36px;
+            font-weight: 600;
+            background: darkorange;
+            vertical-align: bottom;
+            /*            color: blue;*/
+            /*            font-weight: 500;*/
+            /*                        font-size: 11px;*/
+        }
+
+        sup {
+            font-size: 11px;
+            color: white;
+            /*            text-decoration: underline;*/
+        }
+
+        .time {
+            color: white;
+        }
+    </style>
+
+
+    <template>
+        <h3>
+            <span>Light</span>
+            <span>in hh:mm</span>
+        </h3>
+        <table>
+            <!--
+<tr class='values'>
+    <template is="dom-repeat" items="{{data}}">
+        <td>{{hour(item.sunset)}} <sup>{{minute(item.sunset)}}</sup></td>
+    </template>
+</tr>-->
+            <tr>
+                <template is="dom-repeat" items="{{data}}">
+                    <td class='bottom'>
+                        <div class='time'>{{hour(item.sunset)}} <sup>{{minute(item.sunset)}}</div>
+                        <div class='changeBar' style$="height:{{changeBar(item)}}px;"></div>
+                    </td>
+                </template>
+            </tr>
+
+            <tr>
+                <template is="dom-repeat" items="{{data}}">
+                    <td class='bottom'> <span class='baseBar' style$="height:{{baseBar(item)}}px;"></span> </td>
+                </template>
+            </tr>
+
+            <tr class='duration'>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>
+                        <div class='sun'>
+                            {{item.duration}}
+                        </div>
+                    </td>
+                </template>
+            </tr>
+
+            <tr>
+                <template is="dom-repeat" items="{{data}}">
+                    <td class='top'> <span class='baseBar' style$="height:{{baseBar(item)}}px;"></span> </td>
+                </template>
+            </tr>
+
+            <tr>
+                <template is="dom-repeat" items="{{data}}">
+                    <td class='top'>
+                        <div class='changeBar' style$="height:{{changeBar(item)}}px;"></div>
+                        <div class='time'>{{hour(item.sunrise)}} <sup>{{minute(item.sunrise)}}</div>
+                    </td>
+<!--                    <td class='top'> <span class='changeBar' style$="height:{{changeBar(item)}}px;"></span> </td>-->
+                </template>
+            </tr>
+<!--
+            <tr class='values'>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>{{hour(item.sunrise)}} <sup>{{minute(item.sunrise)}}</sup></td>
+                </template>
+            </tr>
+            -->
+            <!--
+<tr class='labels'>
+    <template is="dom-repeat" items="{{labels}}">
+        <td>{{item}}</td>
+    </template>
+</tr>-->
+        </table>
+
+    </template>
+
+
+</dom-module>
+
+
+
+
+
+<script>
+    Polymer({
+        is: "light-time",
+        properties: {
+            data: Array,
+            labels: Array
+        },
+
+        created: function () {},
+        ready: function () {
+            //            console.log('rain-prob', data);
+        },
+        hour: function (val) {
+            return val.split(":")[0];
+        },
+        minute: function (val) {
+            return val.split(":")[1];
+        },
+        length: function (val) {
+            return this.hour(val) * 60 + this.minute(val) * 1;
+        },
+        baseBar: function (item) { // return shortest amount of light in the week
+            var durations = [];
+            for (var i = 0; i < this.data.length; i++)
+                durations.push(this.length(this.data[i].duration));
+            //            console.log('durations', Math.round(Math.min.apply(0, durations) / 5), durations);
+            return Math.round(Math.min.apply(0, durations) / 10);
+        },
+        changeBar: function (item) {
+            return Math.round((this.length(item.duration) - this.baseBar() * 10) * 2);
+        }
+
+    });
+
+    //            var first = Math.abs(this.data[0].sunrise - this.data[0].sunset);
+    //            return Math.round(first / 60 / 60 * 5);
+
+    //            var first = Math.abs(this.data[0].sunrise - this.data[0].sunset);
+    //            var diff = Math.abs(item.sunrise - item.sunset);
+    //            return Math.round(Math.abs(diff - first) / 20);
+
+    //        time: function (value) {
+    //            var t = new Date(value * 1000);
+    //            console.log('light-time', t);
+    //            return t.getHours() + ':' + ("0" + t.getMinutes()).slice(-2);
+    //            //            return {
+    //            //                hours: t.getHours(),
+    //            //                minutes: ("0" + t.getMinutes()).slice(-2);
+    //            //            };
+    //
+    //        },
+    //        timeH: function (val) {
+    //            return this.time(val).split(':')[0];
+    //        },
+    //        timeM: function (val) {
+    //            return this.time(val).split(':')[1];
+    //        },
+    //        diff: function (val1, val2) {
+    //            var diff = Math.abs(val1 - val2);
+    //            var hours = Math.floor(diff / 60 / 60);
+    //            diff -= hours * 60 * 60;
+    //            var minutes = Math.floor(diff / 60);
+    //            return hours + ':' + ("0" + minutes).slice(-2);
+    //            //            return {
+    //            //                hours: hours,
+    //            //                minutes: minutes
+    //            //            };
+    //        },
+    //        diffH: function (v1, v2) {
+    //            return this.diff(v1, v2).split(':')[0];
+    //        },
+    //        diffM: function (v1, v2) {
+    //            return this.diff(v1, v2).split(':')[1];
+    //        },
+
+    //            var last = Math.abs(this.data.slice(-1)[0].sunrise - this.data.slice(-1)[0].sunset);
+    //            console.log('first', first, last, last - first);
+    //            var tmp = this.diff(item.sunrise, item.sunset);
+    //            tmp = tmp.split(':');
+    //            return Math.round(((tmp[0] * 60 + tmp[1] * 1) - 400) / 2 / 1);
+    //            return Math.round(((tmp[0] * 60 + tmp[1] * 1) - 0) / 2 / 5);
+</script>

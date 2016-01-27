@@ -13,7 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#~0.5.2",
-    "core-ajax": "Polymer/core-ajax#~0.5.5"
+    "polymer": "Polymer/polymer#~1.2.3",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1"
   }
 }

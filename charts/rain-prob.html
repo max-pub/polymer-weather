@@ -1,0 +1,97 @@
+<!-- <link rel="import" href="ftp-connection.html"> -->
+<!--<link rel="import" href="file-list.html">-->
+
+<dom-module id="rain-prob">
+    <style>
+        /*
+*/
+
+        td {
+            text-align: center;
+            width: 11%;
+            vertical-align: bottom;
+        }
+
+        .labels {
+            color: white;
+        }
+
+        .values {
+            color: white;
+            font-size: 15px;
+        }
+
+        .bucket {
+            width: 75%;
+            border: 2px solid gray;
+            border-top: none;
+            /*            background: #83b5fb;*/
+        }
+
+        .drop {
+            width: 30%;
+            /*            float: left;*/
+        }
+    </style>
+
+
+    <template>
+        <h3>
+            <span>Rain</span>
+            <span>in %</span>
+        </h3>
+        <table id='drops'>
+            <tr>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>
+                        <div class='bucket'>
+                            <template is="dom-repeat" items="{{drops(item)}}">
+                                <img class='drop' src='bin/raindrop.png' />
+                            </template>
+                        </div>
+                    </td>
+                </template>
+            </tr>
+            <tr class='values'>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>{{value(item)}}</td>
+                </template>
+            </tr>
+            <!--
+<tr class='labels'>
+    <template is="dom-repeat" items="{{labels}}">
+        <td>{{item}}</td>
+    </template>
+</tr>-->
+        </table>
+
+    </template>
+
+
+</dom-module>
+
+
+
+
+
+<script>
+    Polymer({
+        is: "rain-prob",
+        properties: {
+            data: Array,
+            labels: Array
+        },
+
+        created: function () {},
+        ready: function () {
+            //            console.log('rain-prob', data);
+        },
+        value: function (item) {
+            return Math.round(item.probability * 100);
+        },
+        drops: function (item) {
+            return new Array(Math.round(item.probability * 100 / 5));
+        }
+
+    });
+</script>

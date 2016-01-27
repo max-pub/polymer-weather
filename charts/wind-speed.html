@@ -1,0 +1,80 @@
+<!-- <link rel="import" href="ftp-connection.html"> -->
+<!--<link rel="import" href="file-list.html">-->
+
+<dom-module id="wind-speed">
+    <style>
+        table {
+            width: 100%;
+        }
+
+        td {
+            text-align: center;
+            width: 11%;
+            overflow: hidden;
+        }
+
+        .labels {
+            color: white;
+        }
+
+        .values {
+            color: white;
+            font-size: 15px;
+        }
+    </style>
+
+
+    <template>
+        <h3>
+            <span>Wind</span>
+            <span>in km/h</span>
+        </h3>
+        <table>
+            <tr>
+                <template is="dom-repeat" items="{{data}}">
+                    <td> <img src='bin/arrow.png' style$='width:{{relSize(item.speed)}}; -webkit-transform:rotate({{item.direction}}deg)' /> </td>
+                </template>
+            </tr>
+            <tr class='values'>
+                <template is="dom-repeat" items="{{data}}">
+                    <td>{{value(item.speed)}}</td>
+                </template>
+            </tr>
+            <!--
+<tr class='labels'>
+    <template is="dom-repeat" items="{{labels}}">
+        <td>{{item}}</td>
+    </template>
+</tr>-->
+        </table>
+
+    </template>
+
+
+</dom-module>
+
+
+
+
+
+<script>
+    Polymer({
+        is: "wind-speed",
+        properties: {
+            data: Array,
+            labels: Array
+        },
+
+        created: function () {},
+        ready: function () {
+            //            console.log('rain-prob', data);
+        },
+        relSize: function (value) {
+            return value * 2;
+        },
+        value: function (value) {
+            return Math.round(value);
+        }
+
+    });
+</script>
