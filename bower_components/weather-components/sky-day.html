@@ -4,16 +4,16 @@
     <template>
         <style>
         </style>
-        
+
         <div class='week'>
             <template repeat="{{hour in [1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4]}}">
-                <sky-dot size='40' data='{"cloudCover":0.3,"light":0.4,"tempFeel":15}' ></sky-dot>
+                <weather-icon size='40' data='{"cloudCover":0.3,"light":0.4,"tempFeel":15}' ></weather-icon>
             </template>
-        </div>      
+        </div>
     </template>
     <script>
         Polymer({
         });
     </script>
 </polymer-element>
-    
+

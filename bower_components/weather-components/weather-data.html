@@ -1,0 +1,26 @@
+<link rel="import" href="../core-ajax/core-ajax.html">
+
+
+<polymer-element name="weather-data" attributes="lat,lon,data">
+    <template>
+        <core-ajax
+            id='ajax'
+            auto
+            url="test2.json"
+            handleAs="json"
+            on-core-response="{{callback}}">
+        </core-ajax>
+    </template>
+    <script>
+        Polymer({
+            ready:function(){
+                this.data = {};
+            },
+            callback:function(event,request,element){
+                this.data = request.response;
+                console.log('data',this.data);
+            }
+        });
+    </script>
+</polymer-element>
+
