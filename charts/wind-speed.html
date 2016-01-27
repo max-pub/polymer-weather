@@ -32,7 +32,7 @@
         <table>
             <tr>
                 <template is="dom-repeat" items="{{data}}">
-                    <td> <img src='bin/arrow.png' style$='width:{{relSize(item.speed)}}; -webkit-transform:rotate({{item.direction}}deg)' /> </td>
+                    <td> <img src='bin/wind.png' style$='width:{{relSize(item.speed)}}px; -webkit-transform:rotate({{item.bearing}}deg)' /> </td>
                 </template>
             </tr>
             <tr class='values'>
@@ -70,7 +70,8 @@
             //            console.log('rain-prob', data);
         },
         relSize: function (value) {
-            return value * 2;
+            console.log('size',value)
+            return Math.round(value * 2);
         },
         value: function (value) {
             return Math.round(value);

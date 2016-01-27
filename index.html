@@ -8,21 +8,67 @@
   <meta name="viewport"
     content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
 
-    <link rel="import" href="bower_components/polymer/polymer.html">
-    <link rel="import" href="bower_components/weather-components/weather-icon.html">
-    <link rel="import" href="bower_components/weather-components/sky-day.html">
-    <link rel="import" href="bower_components/weather-components/sky-week.html">
-    <link rel="import" href="bower_components/weather-components/weather-stream.html">
-    <link rel="import" href="bower_components/weather-components/weather-table.html">
-    <link href='bower_components/roboto-fontface/roboto-fontface.css' rel='stylesheet' type='text/css'>
+    <link rel="import" href="../polymer/polymer.html">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
+
+    <link rel="import" href="forecast-io.html">
+    <link rel="import" href="../polymer-misc/pretty-json.html">
+    <link rel="import" href="convert-data.html">
+    <link rel="import" href="charts/temp-range.html">
+    <link rel="import" href="charts/wind-speed.html">
+    <link rel="import" href="charts/light-time.html">
 
 </head>
 
 <body>
+    <dom-module id='demo-tag'>
+    <style>
+        temp-range,light-time,wind-speed{
+            display: block;
+            -webkit-border-radius: 5px;
+            background: #333;
+            width: 500px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+    </style>
+    <template>
+        <h1>Weather Components</h1>
+        <h2>Forecast IO</h2>
+        <input placeholder='latitude' value="{{lat::input}}"/>
+        <input placeholder='longitude' value="{{lon::input}}"/>
+        <button on-click="setPos" lat='40' lon='74'>New York</button>
+        <button on-click="setPos" lat='10' lon='98'>Bangkok</button>
+        <button on-click="setPos" lat='52' lon='8'>Muenster</button>
+
+        <!-- <span style='color:silver;'>try 40, 74 for New York</span> -->
+        <forecast-io lat="{{lat}}" lon="{{lon}}" data="{{data}}"></forecast-io>
+        <!-- <pretty-json data="{{data}}"></pretty-json> -->
+        <convert-data input="{{data}}" output="{{converted}}"></convert-data>
+        <!-- <pretty-json data="{{converted}}"></pretty-json> -->
+        <temp-range data="{{converted.temperature}}"></temp-range>
+        <light-time data="{{converted.light}}"></light-time>
+        <wind-speed data="{{converted.wind}}"></wind-speed>
+
+    </template>
+    </dom-module>
+    <script>Polymer({
+        is: 'demo-tag', 
+        setPos:function(ev){
+            console.log('click',ev.target);
+            this.lat=ev.target.getAttribute('lat');
+            this.lon=ev.target.getAttribute('lon');
+            // this.lat=lat;
+            // this.lon=lon;
+        } 
+    })
+    </script>
+
+    <demo-tag></demo-tag>
 <!--    <sky-week></sky-week>-->
 <!--    <weather-stream></weather-stream>-->
-    <weather-table></weather-table>
+    <!-- <weather-table></weather-table> -->
 </body>
 </html>

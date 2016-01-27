@@ -1,0 +1,49 @@
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../polymer-misc/ajax-stream.html">
+<!-- http://api.sun.max.pub/get?latlon=51.9826122,7.7837602&name=Telgte,Germany -->
+
+<dom-module id="forecast-io">
+    <template>
+        <ajax-stream
+            url="http://api.sun.max.pub/get?lat={{lat}}&lon={{lon}}"
+            on-finish="processData"
+        >
+        </ajax-stream>
+<!--         <iron-ajax
+            id='ajax'
+            auto
+            debounceDuration='100'
+            withCredentials='true'
+            url="http://api.sun.max.pub/get?lat={{lat}}&lon={{lon}}"
+            handleAs="json"
+            on-response="processData">
+        </iron-ajax>
+ -->    </template>
+    <script>
+        Polymer({
+            is: 'forecast-io',
+
+            properties:{
+                lat: String,
+                lon: String,
+                data: {
+                    type: Object,
+                    notify: true
+                }
+            },
+            ready:function(){
+                this.data = {};
+                // this.lat = 51.9826122;
+                // this.lon = 7.7837602;
+            },
+            processData:function(event,data){//event,request,element){
+                // console.log('data',data);
+                this.set('data',JSON.parse(data))
+                console.log('data',this.data);
+                // this.data = JSON.parse(data);
+                // this.data = request.response;
+            }
+        });
+    </script>
+</dom-module>
+

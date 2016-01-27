@@ -1,0 +1,77 @@
+
+<dom-module id="convert-data">
+    <template>
+        <ajax-stream
+            url="http://api.sun.max.pub/get?lat={{lat}}&lon={{lon}}"
+            on-finish="processData"
+        >
+        </ajax-stream>
+<!--         <iron-ajax
+            id='ajax'
+            auto
+            debounceDuration='100'
+            withCredentials='true'
+            url="http://api.sun.max.pub/get?lat={{lat}}&lon={{lon}}"
+            handleAs="json"
+            on-response="processData">
+        </iron-ajax>
+ -->    </template>
+    <script>
+        Polymer({
+            is: 'convert-data',
+
+            properties:{
+                input: {
+                    type:Object,
+                    observer:'processData'
+                },
+                output: {
+                    type: Object,
+                    notify: true
+                }
+            },
+            ready:function(){
+            },
+            processData:function(){//event,request,element){
+               var DATA = {
+                    temperature: [],
+                    precipitation: [],
+                    wind: [],
+                    light: [],
+                    cloudCover: [],
+                    moon: [],
+                    humidity: [],
+                    ozone: [],
+                    visibility: [],
+                    dewPoint: [],
+                    pressure: [],
+                    days: []
+                };
+                var data = this.input;
+                console.log('convert Data', data);
+
+                for (day in data) {
+                    var d = data[day].day;
+                    DATA.days.push(d.day);
+
+                    DATA.temperature.push(d.temperature);
+                    DATA.light.push(d.light);
+                    DATA.precipitation.push(d.precipitation);
+                    DATA.wind.push(d.wind);
+                    DATA.moon.push(d.moon);
+
+                    DATA.cloudCover.push(Math.round(d.cloudCover * 100));
+
+                    DATA.humidity.push(Math.round(d.humidity * 100));
+                    DATA.ozone.push(Math.round(d.ozone));
+                    DATA.pressure.push(Math.round(d.pressure));
+                    DATA.visibility.push(d.visibility ? Math.round(d.visibility) : 10);
+                    DATA.dewPoint.push(Math.round(d.dewPoint));
+                }
+                this.set('output',DATA);
+                console.log('converted',this.output);
+            }
+        });
+    </script>
+</dom-module>
+
