@@ -12,8 +12,8 @@
     <link rel="import" href="../../polymer/polymer.html">
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
 
-    <link rel="import" href="../forecast-io.html">
-    <link rel="import" href="../convert-data.html">
+    <link rel="import" href="../data/forecast-io.html">
+    <link rel="import" href="../data/convert-data.html">
     <link rel="import" href="cloud-cover.html">
     <link rel="import" href="light-time.html">
     <link rel="import" href="moon-phase.html">
@@ -37,6 +37,11 @@
                 font-family: "Source Sans Pro";
             }
 
+            a {
+                text-decoration: none;
+                color: #00a;
+            }
+
             temp-range,
             rain-prob,
             cloud-cover,
@@ -53,6 +58,9 @@
         </style>
         <template>
             <h1>Weather Chart Components</h1>
+            <a href="https://github.com/max-pub/polymer-weather">see source on GitHub</a>
+            <br/>
+            <br/>
 
             <input placeholder='latitude' value="{{lat::input}}" />
             <input placeholder='longitude' value="{{lon::input}}" />
