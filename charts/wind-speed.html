@@ -3,6 +3,11 @@
 
 <dom-module id="wind-speed">
     <style>
+        h3 span:last-child {
+            float: right;
+            color: silver;
+        }
+
         table {
             width: 100%;
         }
@@ -70,7 +75,7 @@
             //            console.log('rain-prob', data);
         },
         relSize: function (value) {
-            console.log('size',value)
+            console.log('size', value)
             return Math.round(value * 2);
         },
         value: function (value) {

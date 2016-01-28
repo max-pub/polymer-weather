@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+
+<head>
+
+    <title>Weather Components</title>
+
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../polymer/polymer.html">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
+
+    <link rel="import" href="../forecast-io.html">
+    <link rel="import" href="../convert-data.html">
+    <link rel="import" href="cloud-cover.html">
+    <link rel="import" href="light-time.html">
+    <link rel="import" href="moon-phase.html">
+    <link rel="import" href="rain-prob.html">
+    <link rel="import" href="temp-range.html">
+    <link rel="import" href="wind-speed.html">
+
+</head>
+
+<body>
+    <style>
+        main {
+            width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <dom-module id='demo-tag'>
+        <style>
+            * {
+                font-family: "Source Sans Pro";
+            }
+
+            temp-range,
+            rain-prob,
+            cloud-cover,
+            moon-phase,
+            light-time,
+            wind-speed {
+                color: white;
+                padding: 1px 10px;
+                margin: 10px 0px;
+                display: block;
+                -webkit-border-radius: 5px;
+                background: #333;
+            }
+        </style>
+        <template>
+            <h1>Weather Chart Components</h1>
+
+            <input placeholder='latitude' value="{{lat::input}}" />
+            <input placeholder='longitude' value="{{lon::input}}" />
+            <br/>
+            <button on-click="setPos" lat='40' lon='74'>New York</button>
+            <button on-click="setPos" lat='10' lon='98'>Bangkok</button>
+            <button on-click="setPos" lat='52' lon='8'>Muenster</button>
+            <br/>
+            <br/>
+
+            <forecast-io lat="{{lat}}" lon="{{lon}}" data="{{data}}"></forecast-io>
+            <convert-data input="{{data}}" output="{{converted}}"></convert-data>
+
+            <temp-range data="{{converted.temperature}}"></temp-range>
+            <cloud-cover data="{{converted.cloudCover}}"></cloud-cover>
+            <rain-prob data="{{converted.precipitation}}"></rain-prob>
+            <wind-speed data="{{converted.wind}}"></wind-speed>
+            <light-time data="{{converted.light}}"></light-time>
+            <moon-phase data="{{converted.moon}}"></moon-phase>
+
+        </template>
+    </dom-module>
+    <script>
+        Polymer({
+            is: 'demo-tag',
+            setPos: function (ev) {
+                console.log('click', ev.target);
+                this.lat = ev.target.getAttribute('lat');
+                this.lon = ev.target.getAttribute('lon');
+            }
+        })
+    </script>
+    <main>
+        <demo-tag></demo-tag>
+    </main>
+</body>
+
+</html>
