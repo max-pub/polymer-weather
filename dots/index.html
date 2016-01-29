@@ -136,6 +136,7 @@
 
                 this.set('dot4.moon.phase', (this.dot4.moon.phase + 0.1) % 1);
                 this.set('dot4.moon.visible', (1 - Math.abs(this.dot4.moon.phase * 2 - 1)));
+                console.log('---moon', Math.round(this.dot4.moon.phase * 100), Math.round(this.dot4.moon.visible * 100));
 
                 this.debounce('repeat', this.repeat, 500);
             },
@@ -222,7 +223,7 @@
             },
             "moon": {
                 "phase": 0,
-                "visibility": 0
+                "visible": 0
             },
             "light": 0,
             "cloudCover": 0,
