@@ -102,13 +102,48 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        .dot .moon {
+            -webkit-border-radius: 1000px;
+            display: block;
+            /*            position: absolute;*/
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 15%;
+            width: 70%;
+            height: 70%;
+            /*            left: 9px;*/
+            /*            top: 9px;*/
+            /*            width: 22px;*/
+            /*            height: 22px;*/
+            overflow: hidden;
+        }
+
+        .dot .moon .moonPhase {
+            /*            position: absolute;*/
+            /*            top: 0;*/
+            position: absolute;
+            display: block;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            /*            width: 100%;*/
+            background: #FFFDD0;
+            /*            padding: 10px;*/
+        }
     </style>
 
 
     <template>
         <div class$='dot {{MinMaxTemp(data)}}'>
-            <template is="dom-if" if="{{!data.light}}">
+            <template is="dom-if" if="{{night(data)}}">
                 <span class='night' style="left:{{nightLeft(data)}}%; right:{{nightRight(data)}}%;"></span>
+                <span class='moon'>
+                    <span class='moonPhase' style$="left:{{moonLeft(data.moon.phase,data.moon.visible)}}%; right:{{moonRight(data.moon.phase,data.moon.visible)}}%;" ></span>
+                </span>
+
             </template>
             <template is="dom-if" if="{{data.light}}">
                 <span class='sun' style$="background:{{sunTone(data.temperature.feel)}}; left:{{sunLeft(data)}}%; right:{{sunRight(data)}}%;"></span>
@@ -167,11 +202,14 @@
         sunRight: function (item) {
             return (item.hour * 1) < 12 ? 0 : Math.round(100 - item.light * 100);
         },
+        night: function (item) {
+            return (item.light < 1);
+        },
         nightLeft: function (item) {
-            return (item.hour * 1) < 12 ? 0 : Math.round(100 - item.light * 100);
+            return (item.hour * 1) < 12 ? 0 : Math.round(item.light * 100);
         },
         nightRight: function (item) {
-            return (item.hour * 1) > 12 ? 0 : Math.round(100 - item.light * 100);
+            return (item.hour * 1) > 12 ? 0 : Math.round(item.light * 100);
         },
         cloudCurtain: function (value) {
             return 100 - value * 100;
@@ -188,6 +226,12 @@
         windMargin: function (value) {
             //            console.log('------margin', Math.round((100 - this.windSize(item)) / 2));
             return Math.round((100 - this.windSize(value)) / 2);
+        },
+        moonLeft: function (phase, full) {
+            return phase <= 0.5 ? 0 : full * 100;
+        },
+        moonRight: function (phase, full) {
+            return phase >= 0.5 ? 0 : full * 100;
         },
         MinMaxTemp: function (item) {
             if (item.temperature.max) return 'maxTemp';

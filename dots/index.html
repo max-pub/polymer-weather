@@ -53,23 +53,27 @@
                         <weather-dot data='{{dot1}}'></weather-dot>
                     </td>
                     <td>
-                        -40 till + 40 degrees Celsius
-                    </td>
-                </tr>
-                <tr>
-                    <td>
                         <weather-dot data='{{dot2}}'></weather-dot>
                     </td>
-                    <td>
-                        Clouds and Rain
-                    </td>
-                </tr>
-                <tr>
                     <td>
                         <weather-dot data='{{dot3}}'></weather-dot>
                     </td>
                     <td>
+                        <weather-dot data='{{dot4}}'></weather-dot>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Temperature
+                    </td>
+                    <td>
+                        Clouds &amp; Rain
+                    </td>
+                    <td>
                         Wind
+                    </td>
+                    <td>
+                        Moon
                     </td>
                 </tr>
 
@@ -80,9 +84,20 @@
             <input placeholder='latitude' value="{{lat::input}}" />
             <input placeholder='longitude' value="{{lon::input}}" />
             <br/>
-            <button on-click="setPos" lat='40' lon='74'>New York</button>
-            <button on-click="setPos" lat='10' lon='98'>Bangkok</button>
-            <button on-click="setPos" lat='52' lon='8'>Muenster</button>
+            <button on-click="setPos" lat='40.7127' lon='-74.0059'>New York</button>
+            <button on-click="setPos" lat='37.7833' lon='-122.4167'>San Francisco</button>
+            <button on-click="setPos" lat='20.9700' lon='-89.6200'>Merida</button>
+            <br/>
+            <button on-click="setPos" lat='39.9167' lon='116.3833'>Bejing</button>
+            <button on-click="setPos" lat='7.5667' lon='126.9667'>Seoul</button>
+            <button on-click="setPos" lat='13.7563' lon='100.5018'>Bangkok</button>
+            <button on-click="setPos" lat='9.7368' lon='98.4020'>Ko Phayam</button>
+            <br/>
+            <button on-click="setPos" lat='53.5653' lon='10.0014'>Hamburg</button>
+            <button on-click="setPos" lat='48.2000' lon='16.3667'>Vienna</button>
+            <button on-click="setPos" lat='48.8567' lon='2.3508'>Paris</button>
+            <button on-click="setPos" lat='40.4000' lon='3.7167'>Madrid</button>
+            <button on-click="setPos" lat='41.3833' lon='2.1833'>Barcelona</button>
             <br/>
             <br/>
 
@@ -106,22 +121,22 @@
                 this.set('dot1', DOT1);
                 this.set('dot2', DOT2);
                 this.set('dot3', DOT3);
+                this.set('dot4', DOT4);
                 this.repeat();
             },
             repeat: function () {
                 console.log('repeat now');
-                //                var temp = (this.dot1.temperature.feel + 40 + 5) % 80 - 40;
-                //                this.dot1 = DOT1;
                 this.set('dot1.temperature.feel', (this.dot1.temperature.feel + 40 + 5) % 80 - 40);
+
                 this.set('dot2.cloudCover', (this.dot2.cloudCover + 0.1) % 1);
                 this.set('dot2.precipitation.probability', (this.dot2.precipitation.probability + 0.1) % 1);
-                console.log('clouds', this.dot2.cloudCover);
-                console.log('rain', this.dot2.precipitation.probability);
-                console.log('raindrops', Math.round(this.dot2.precipitation.probability * 100 / 10));
+
                 this.set('dot3.wind.speed', (this.dot3.wind.speed + 1) % 25);
                 this.set('dot3.wind.bearing', (this.dot3.wind.bearing + 10) % 360);
-                //                (this.dot1.temperature.feel + 40 + 5) % 80 - 40
-                //                this.set('dot1', DOT1);
+
+                this.set('dot4.moon.phase', (this.dot4.moon.phase + 0.1) % 1);
+                this.set('dot4.moon.visible', (1 - Math.abs(this.dot4.moon.phase * 2 - 1)));
+
                 this.debounce('repeat', this.repeat, 500);
             },
             setPos: function (ev) {
@@ -190,6 +205,28 @@
             "light": 1,
             "cloudCover": 0,
             "hour": 20
+        };
+        DOT4 = {
+            "temperature": {
+                "feel": 30,
+                "max": false
+            },
+            "precipitation": {
+                "type": "rain",
+                "intensity": 1,
+                "probability": 0
+            },
+            "wind": {
+                "speed": 0,
+                "bearing": 127
+            },
+            "moon": {
+                "phase": 0,
+                "visibility": 0
+            },
+            "light": 0,
+            "cloudCover": 0,
+            "hour": 22
         };
     </script>
 
