@@ -1,7 +1,7 @@
 # Polymer Weather Components
 
 ## Charts
-[Demo](http://lib.max.pub/weather/charts)
+[Demo](http://lib.max.pub/polymer/weather/charts)
 
 See daily min- & max-temperature.
 ```HTML
@@ -14,6 +14,9 @@ See daily min- & max-temperature.
 
 
 ## Dots
+[Demo](http://lib.max.pub/polymer/weather/dots)
+
+Single Weather Dot, representing the moment or the current hour.
 ```HTML
 <weather-dot data='{"temperature":27, "wind":{"speed":11,"bearing":127}, "precipitation":{"type":"rain","probability":0.54} }'></weather-dot>
 ```

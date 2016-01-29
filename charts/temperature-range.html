@@ -1,4 +1,4 @@
-<dom-module id="temp-range">
+<dom-module id="temperature-range">
     <style>
         h3 span:last-child {
             float: right;
@@ -19,12 +19,6 @@
             padding: 0;
         }
 
-        .values {
-            color: white;
-            font-size: 15px;
-            display: none;
-        }
-
         .baseBar {
             /*            display: block;*/
             width: 0px;
@@ -35,25 +29,10 @@
         }
 
         .tempBar {
-            /*            display: block;*/
             width: 4px;
-            /*            border: 1px solid white;*/
-            /*            border: 2px solid white;*/
-            /*            margin-left: 47%;*/
             margin-left: auto;
             margin-right: auto;
-            /*            margin-right: 47%;*/
         }
-        /*
-        .min,
-        .max {
-            width: 15px;
-            height: 15px;
-            margin-left: 37%;
-            -webkit-border-radius: 100px;
-            color: transparent;
-        }
-*/
 
         .minBubble,
         .maxBubble {
@@ -69,16 +48,6 @@
             -webkit-border-radius: 100px;
             color: #222;
         }
-        /*            padding-top: 7px;*/
-        /*            text-shadow: -1px -1px 0 #222, 1px -1px 0 #222, -1px 1px 0 #222, 1px 1px 0 #222;*/
-        /*            text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;*/
-        /*            color: black;*/
-        /*            text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;*/
-        /*            -webkit-text-outline: 1px black;*/
-        /*            -webkit-text-fill-color: white;*/
-        /* Will override color (regardless of order) */
-        /*            -webkit-text-stroke-width: 1px;*/
-        /*            -webkit-text-stroke-color: black;*/
     </style>
 
 
@@ -111,7 +80,7 @@
 
 <script>
     Polymer({
-        is: "temp-range",
+        is: "temperature-range",
         properties: {
             data: {
                 type: Array,
@@ -120,8 +89,6 @@
             labels: Array
         },
 
-        created: function () {},
-        ready: function () {},
 
         dataChange: function () {
             this.unit = 'Celsius';
@@ -173,7 +140,28 @@
         }
 
     });
+</script>
 
+
+
+
+
+
+
+
+<!--
+-->
+
+
+<!--
+            /*            display: block;*/
+            /*            border: 1px solid white;*/
+            /*            border: 2px solid white;*/
+            /*            margin-left: 47%;*/
+            /*            margin-right: 47%;*/
+-->
+
+<!--
     //            return (80 - (value + 40)) * 3; // with green
     //            var color = (80 - (value + 40)) * 2;
     //            if (color > 70) color += 110;
@@ -194,8 +182,31 @@
     //            tmp = tmp.split(':');
     //            return Math.round(((tmp[0] * 60 + tmp[1] * 1) - 400) / 2 / 1);
     //            return Math.round(((tmp[0] * 60 + tmp[1] * 1) - 0) / 2 / 5);
-</script>
+-->
 
+
+<!--
+        /*
+        .min,
+        .max {
+            width: 15px;
+            height: 15px;
+            margin-left: 37%;
+            -webkit-border-radius: 100px;
+            color: transparent;
+        }
+*/
+        /*            padding-top: 7px;*/
+        /*            text-shadow: -1px -1px 0 #222, 1px -1px 0 #222, -1px 1px 0 #222, 1px 1px 0 #222;*/
+        /*            text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;*/
+        /*            color: black;*/
+        /*            text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;*/
+        /*            -webkit-text-outline: 1px black;*/
+        /*            -webkit-text-fill-color: white;*/
+        /* Will override color (regardless of order) */
+        /*            -webkit-text-stroke-width: 1px;*/
+        /*            -webkit-text-stroke-color: black;*/
+-->
 
 
 <!--

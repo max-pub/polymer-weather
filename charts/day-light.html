@@ -1,7 +1,4 @@
-<!-- <link rel="import" href="ftp-connection.html"> -->
-<!--<link rel="import" href="file-list.html">-->
-
-<dom-module id="light-time">
+<dom-module id="day-light">
     <style>
         h3 span:last-child {
             float: right;
@@ -19,15 +16,6 @@
             overflow: hidden;
             margin: 0;
             padding: 0;
-        }
-
-        .labels {
-            color: white;
-        }
-
-        .values {
-            color: white;
-            font-size: 14px;
         }
 
         .duration {
@@ -73,15 +61,11 @@
             font-weight: 600;
             background: darkorange;
             vertical-align: bottom;
-            /*            color: blue;*/
-            /*            font-weight: 500;*/
-            /*                        font-size: 11px;*/
         }
 
         sup {
             font-size: 11px;
             color: white;
-            /*            text-decoration: underline;*/
         }
 
         .time {
@@ -96,12 +80,6 @@
             <span>in hh:mm</span>
         </h3>
         <table>
-            <!--
-<tr class='values'>
-    <template is="dom-repeat" items="{{data}}">
-        <td>{{hour(item.sunset)}} <sup>{{minute(item.sunset)}}</sup></td>
-    </template>
-</tr>-->
             <tr>
                 <template is="dom-repeat" items="{{data}}">
                     <td class='bottom'>
@@ -139,22 +117,8 @@
                         <div class='changeBar' style$="height:{{changeBar(item)}}px;"></div>
                         <div class='time'>{{hour(item.sunrise)}} <sup>{{minute(item.sunrise)}}</div>
                     </td>
-<!--                    <td class='top'> <span class='changeBar' style$="height:{{changeBar(item)}}px;"></span> </td>-->
                 </template>
             </tr>
-<!--
-            <tr class='values'>
-                <template is="dom-repeat" items="{{data}}">
-                    <td>{{hour(item.sunrise)}} <sup>{{minute(item.sunrise)}}</sup></td>
-                </template>
-            </tr>
-            -->
-            <!--
-<tr class='labels'>
-    <template is="dom-repeat" items="{{labels}}">
-        <td>{{item}}</td>
-    </template>
-</tr>-->
         </table>
 
     </template>
@@ -168,7 +132,7 @@
 
 <script>
     Polymer({
-        is: "light-time",
+        is: "day-light",
         properties: {
             data: Array,
             labels: Array

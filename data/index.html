@@ -3,72 +3,74 @@
 
 <head>
 
-  <title>Weather Components</title>
+    <title>Weather Components</title>
 
-  <meta name="viewport"
-    content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-
-    <link rel="import" href="../polymer/polymer.html">
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
 
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../../polymer/polymer.html">
+
     <link rel="import" href="forecast-io.html">
-    <link rel="import" href="../polymer-misc/pretty-json.html">
     <link rel="import" href="convert-data.html">
-    <link rel="import" href="charts/temp-range.html">
-    <link rel="import" href="charts/wind-speed.html">
-    <link rel="import" href="charts/light-time.html">
+    <link rel="import" href="../../polymer-misc/pretty-json.html">
 
 </head>
 
 <body>
-    <dom-module id='demo-tag'>
     <style>
-        temp-range,light-time,wind-speed{
-            display: block;
-            -webkit-border-radius: 5px;
-            background: #333;
+        * {
+            font-family: "Source Sans Pro";
+        }
+
+        main {
             width: 500px;
-            margin-left:auto;
-            margin-right:auto;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
-    <template>
-        <h1>Weather Components</h1>
-        <h2>Forecast IO</h2>
-        <input placeholder='latitude' value="{{lat::input}}"/>
-        <input placeholder='longitude' value="{{lon::input}}"/>
-        <button on-click="setPos" lat='40' lon='74'>New York</button>
-        <button on-click="setPos" lat='10' lon='98'>Bangkok</button>
-        <button on-click="setPos" lat='52' lon='8'>Muenster</button>
+    <dom-module id='demo-tag'>
+        <style>
+            pretty-json {
+                height: 400px;
+                overflow: scroll;
+                margin: 10px 0px;
+            }
+        </style>
+        <template>
+            <h1>Weather Data Components</h1>
+            <input placeholder='latitude' value="{{lat::input}}" />
+            <input placeholder='longitude' value="{{lon::input}}" />
+            <br/>
+            <button on-click="setPos" lat='40' lon='74'>New York</button>
+            <button on-click="setPos" lat='10' lon='98'>Bangkok</button>
+            <button on-click="setPos" lat='52' lon='8'>Muenster</button>
 
-        <!-- <span style='color:silver;'>try 40, 74 for New York</span> -->
-        <forecast-io lat="{{lat}}" lon="{{lon}}" data="{{data}}"></forecast-io>
-        <!-- <pretty-json data="{{data}}"></pretty-json> -->
-        <convert-data input="{{data}}" output="{{converted}}"></convert-data>
-        <!-- <pretty-json data="{{converted}}"></pretty-json> -->
-        <temp-range data="{{converted.temperature}}"></temp-range>
-        <light-time data="{{converted.light}}"></light-time>
-        <wind-speed data="{{converted.wind}}"></wind-speed>
+            <h2>Direct Data</h2>
+            <forecast-io lat="{{lat}}" lon="{{lon}}" data="{{data}}"></forecast-io>
+            <pretty-json data="{{data}}"></pretty-json>
 
-    </template>
+            <h2>Converted Data</h2>
+            <convert-data input="{{data}}" output="{{converted}}"></convert-data>
+            <pretty-json data="{{converted}}"></pretty-json>
+
+        </template>
     </dom-module>
-    <script>Polymer({
-        is: 'demo-tag', 
-        setPos:function(ev){
-            console.log('click',ev.target);
-            this.lat=ev.target.getAttribute('lat');
-            this.lon=ev.target.getAttribute('lon');
-            // this.lat=lat;
-            // this.lon=lon;
-        } 
-    })
+    <script>
+        Polymer({
+            is: 'demo-tag',
+            setPos: function (ev) {
+                console.log('click', ev.target);
+                this.lat = ev.target.getAttribute('lat');
+                this.lon = ev.target.getAttribute('lon');
+            }
+        })
     </script>
 
-    <demo-tag></demo-tag>
-<!--    <sky-week></sky-week>-->
-<!--    <weather-stream></weather-stream>-->
-    <!-- <weather-table></weather-table> -->
+    <main>
+        <demo-tag></demo-tag>
+    </main>
 </body>
+
 </html>

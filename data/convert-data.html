@@ -1,12 +1,8 @@
-
 <dom-module id="convert-data">
     <template>
-        <ajax-stream
-            url="http://api.sun.max.pub/get?lat={{lat}}&lon={{lon}}"
-            on-finish="processData"
-        >
+        <ajax-stream url="http://api.sun.max.pub/get?lat={{lat}}&lon={{lon}}" on-finish="processData">
         </ajax-stream>
-<!--         <iron-ajax
+        <!--         <iron-ajax
             id='ajax'
             auto
             debounceDuration='100'
@@ -15,25 +11,25 @@
             handleAs="json"
             on-response="processData">
         </iron-ajax>
- -->    </template>
+ -->
+    </template>
     <script>
         Polymer({
             is: 'convert-data',
 
-            properties:{
+            properties: {
                 input: {
-                    type:Object,
-                    observer:'processData'
+                    type: Object,
+                    observer: 'processData'
                 },
                 output: {
                     type: Object,
                     notify: true
                 }
             },
-            ready:function(){
-            },
-            processData:function(){//event,request,element){
-               var DATA = {
+            ready: function () {},
+            processData: function () { //event,request,element){
+                var DATA = {
                     temperature: [],
                     precipitation: [],
                     wind: [],
@@ -60,18 +56,17 @@
                     DATA.wind.push(d.wind);
                     DATA.moon.push(d.moon);
 
-                    DATA.cloudCover.push(Math.round(d.cloudCover * 100));
+                    DATA.cloudCover.push(d.cloudCover);
 
                     DATA.humidity.push(Math.round(d.humidity * 100));
                     DATA.ozone.push(Math.round(d.ozone));
-                    DATA.pressure.push(Math.round(d.pressure));
+                    DATA.pressure.push(d.pressure);
                     DATA.visibility.push(d.visibility ? Math.round(d.visibility) : 10);
                     DATA.dewPoint.push(Math.round(d.dewPoint));
                 }
-                this.set('output',DATA);
-                console.log('converted',this.output);
+                this.set('output', DATA);
+                console.log('converted', this.output);
             }
         });
     </script>
 </dom-module>
-

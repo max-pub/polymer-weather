@@ -1,7 +1,4 @@
-<!-- <link rel="import" href="ftp-connection.html"> -->
-<!--<link rel="import" href="file-list.html">-->
-
-<dom-module id="rain-prob">
+<dom-module id="rain-bucket">
     <style>
         h3 span:last-child {
             float: right;
@@ -32,7 +29,6 @@
 
         .drop {
             width: 90%;
-            /*            float: left;*/
         }
 
         .left,
@@ -48,36 +44,33 @@
             <span>Rain</span>
             <span>in %</span>
         </h3>
+
         <table id='drops'>
             <tr>
                 <template is="dom-repeat" items="{{data}}">
                     <td>
                         <div class='bucket'>
                             <div class='left'>
-                                <template is="dom-repeat" items="{{leftDrops(item)}}">
-                                    <img class='drop' src='bin/raindrop.png' />
+                                <template is="dom-repeat" items="{{leftDrops(item)}}" as="drop">
+                                    <img class='drop' src$="bin/{{item.type}}.png" />
                                 </template>
                             </div>
                             <div class='right'>
-                                <template is="dom-repeat" items="{{rightDrops(item)}}">
-                                    <img class='drop' src='bin/raindrop.png' />
+                                <template is="dom-repeat" items="{{rightDrops(item)}}" as="drop">
+                                    <img class='drop' src$="bin/{{item.type}}.png" />
                                 </template>
                             </div>
                         </div>
+
                     </td>
                 </template>
             </tr>
+
             <tr class='values'>
                 <template is="dom-repeat" items="{{data}}">
                     <td>{{value(item)}}</td>
                 </template>
             </tr>
-            <!--
-<tr class='labels'>
-    <template is="dom-repeat" items="{{labels}}">
-        <td>{{item}}</td>
-    </template>
-</tr>-->
         </table>
 
     </template>
@@ -91,16 +84,12 @@
 
 <script>
     Polymer({
-        is: "rain-prob",
+        is: "rain-bucket",
         properties: {
             data: Array,
             labels: Array
         },
 
-        created: function () {},
-        ready: function () {
-            //            console.log('rain-prob', data);
-        },
         value: function (item) {
             return Math.round(item.probability * 100);
         },
@@ -112,6 +101,10 @@
         },
         rightDrops: function (item) {
             return new Array(Math.floor(Math.round(item.probability * 100 / 5) / 2));
+        },
+        image: function (item) {
+            console.log('------------type', item);
+            return 'bin/' + item.type + '.png';
         }
 
     });

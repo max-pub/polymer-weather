@@ -1,0 +1,215 @@
+<dom-module id="weather-dot">
+    <style>
+        .dot {
+            position: relative;
+            border-radius: 1000px;
+            width: 100px;
+            height: 100px;
+            /*                width: {{size}}px;*/
+            /*                height: {{size}}px;*/
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .dot .night {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: black;
+        }
+
+        .dot .sun {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: #ffb300;
+        }
+
+        .dot .clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            /*                background: #e0e0e0;*/
+            background: #eee;
+            opacity: 0.8;
+            /*                background: #999;*/
+            /*                opacity: 0.5;*/
+        }
+
+        .dot .temp {
+            font-family: Roboto;
+            font-weight: 500;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            font-size: 42px;
+            font-weight: 400 !important;
+            padding-top: 8px;
+            color: white;
+            vertical-align: middle;
+            text-align: center;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .dot .rain {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: transparent;
+            line-height: 70%;
+            text-align: left;
+            margin-top: 2px;
+        }
+
+        .dot .rain .drop {
+            display: inline-block;
+            width: 17%;
+            margin: 0;
+            padding: 0;
+            margin-right: 1%;
+            margin-top: 3%;
+        }
+
+        .dot .rain .drop:nth-child(1) {
+            margin-left: 20%;
+        }
+
+        .dot .rain .drop:nth-child(4) {
+            margin-left: 7%;
+        }
+
+        .dot .rain .drop:nth-child(8) {
+            margin-left: 20%;
+        }
+
+        .minTemp .rain,
+        .maxTemp .rain {
+            display: none;
+        }
+
+        .dot .wind {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+
+
+    <template>
+        <div class$='dot {{MinMaxTemp(data)}}'>
+            <template is="dom-if" if="{{!data.light}}">
+                <span class='night' style="left:{{nightLeft(data)}}%; right:{{nightRight(data)}}%;"></span>
+            </template>
+            <template is="dom-if" if="{{data.light}}">
+                <span class='sun' style$="background:{{sunTone(data.temperature.feel)}}; left:{{sunLeft(data)}}%; right:{{sunRight(data)}}%;"></span>
+            </template>
+
+            <template is="dom-if" if="{{!data.temperature.max}}">
+                <span class='clouds' style$="bottom:{{cloudCurtain(data.cloudCover)}}%;"></span>
+                <span class='rain' style='opacity: 0.8;'>
+                    <template is="dom-repeat" items="{{raindrops(data.precipitation.probability)}}">
+                        <img src='bin/raindrop.png' class='drop'>
+                    </template>
+                </span>
+                <img class='wind' src='bin/wind.png' style$='margin-top:{{windMargin(data.wind.speed)}}%; width:{{windSize(data.wind.speed)}}%; -webkit-transform:rotate({{data.wind.bearing}}deg)' />
+            </template>
+
+            <template is="dom-if" if="{{data.temperature.max}}">
+                <span class='temp'>{{round(data.temperature.feel)}}&deg;</span>
+            </template>
+            <!--
+-->
+            <!--            <template if="{{data.maxTemp}}">-->
+            <!--            </template>-->
+            <!--            </template>-->
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'weather-dot',
+        properties: {
+            data: {
+                type: Object,
+                observer: 'dataChanged',
+                value: {
+                    temperature: {
+                        feel: 25
+                    },
+                    precipitation: {
+                        type: 'rain',
+                        intensity: 1.0,
+                        probability: 0.3
+                    },
+                    light: 0.7,
+                    cloudCover: 0.17,
+                    hour: 20
+                }
+            }
+        },
+        sunTone: function (value) {
+            return "hsla(" + (45 - value / 2) + ",100%," + (85 - value) + "%," + 1.0 + ")";
+        },
+        sunLeft: function (item) {
+            return (item.hour * 1) > 12 ? 0 : Math.round(100 - item.light * 100);
+        },
+        sunRight: function (item) {
+            return (item.hour * 1) < 12 ? 0 : Math.round(100 - item.light * 100);
+        },
+        nightLeft: function (item) {
+            return (item.hour * 1) < 12 ? 0 : Math.round(100 - item.light * 100);
+        },
+        nightRight: function (item) {
+            return (item.hour * 1) > 12 ? 0 : Math.round(100 - item.light * 100);
+        },
+        cloudCurtain: function (value) {
+            return 100 - value * 100;
+            //            {{size-data.cloudCover*size}}px;
+        },
+        raindrops: function (value) {
+            //            console.log('raindrops', Math.round(item.precipitation.probability * 100 / 10));
+            return new Array(Math.round(value * 100 / 10));
+        },
+        windSize: function (value) {
+            //            console.log('--------size', item.wind.speed)
+            return Math.round(value * 3.6); // == transform from m/s to km/h... heavy storm = 100km/h... good fit!
+        },
+        windMargin: function (value) {
+            //            console.log('------margin', Math.round((100 - this.windSize(item)) / 2));
+            return Math.round((100 - this.windSize(value)) / 2);
+        },
+        MinMaxTemp: function (item) {
+            if (item.temperature.max) return 'maxTemp';
+            if (item.temperature.min) return 'minTemp';
+        },
+        round: function (value) {
+            return Math.round(value);
+        },
+        dataChanged: function () {
+            console.log('dot-data', this.data);
+            DAT = this.data;
+            //            left:{{data.sunLeft}}px; right:{{data.sunRight}}px;
+
+            //                console.log('change',alt,neu,this.data);
+            //                console.log('change',this.data.tempFeel);
+            //                var hour = this.data.hour;
+            //            this.data.sunTone = 'hsl(' + (45 - this.data.tempFeel / 2) + ',100%,' + (85 - this.data.tempFeel) + '%)';
+            //            this.data.sunLeft = this.data.hour > 12 ? 0 : Math.round((1 - this.data.light) * this.size);
+            //            this.data.sunRight = this.data.hour < 12 ? 0 : Math.round((1 - this.data.light) * this.size);
+            //            this.data.nightLeft = this.data.hour < 12 ? 0 : Math.round((this.data.light) * this.size);
+            //            this.data.nightRight = this.data.hour > 12 ? 0 : Math.round((this.data.light) * this.size);
+
+        }
+    });
+</script>

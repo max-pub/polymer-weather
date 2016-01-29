@@ -1,6 +1,3 @@
-<!-- <link rel="import" href="ftp-connection.html"> -->
-<!--<link rel="import" href="file-list.html">-->
-
 <dom-module id="cloud-cover">
     <style>
         h3 span:last-child {
@@ -48,13 +45,13 @@
                 <template is="dom-repeat" items="{{data}}">
                     <td>
                         <img src='bin/sun.png' class='sun' style$='opacity:{{reversePercent(item)}};' />
-                        <img src='bin/cloud.png' class='cloud' style$='opacity:{{percent(item)}};' />
+                        <img src='bin/cloud.png' class='cloud' style$='opacity:{{item}};' />
                     </td>
                 </template>
             </tr>
             <tr class='values'>
                 <template is="dom-repeat" items="{{data}}">
-                    <td>{{item}}</td>
+                    <td>{{value(item)}}</td>
                 </template>
             </tr>
             <!--
@@ -82,13 +79,11 @@
             labels: Array
         },
 
-        created: function () {},
-        ready: function () {},
-        percent: function (data) {
-            return data / 100;
+        value: function (data) {
+            return Math.round(data * 100);
         },
         reversePercent: function (data) {
-            return (100 - data) / 100;
+            return (1 - data);
         }
 
     });

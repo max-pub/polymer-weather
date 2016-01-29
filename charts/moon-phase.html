@@ -1,6 +1,6 @@
 <dom-module id="moon-phase">
     <style>
-            h3 span:last-child {
+        h3 span:last-child {
             float: right;
             color: silver;
         }
@@ -17,34 +17,17 @@
             height: 50px;
         }
 
-        .labels {
-            color: white;
-        }
-
-        .moon {
-            display: inline-block;
-            height: 100%;
-            width: 100%;
-            -webkit-border-radius: 100px;
-            background: silver;
-        }
-
-        .moonPhase {
+        .hidden {
             position: absolute;
             display: inline-block;
             height: 100%;
-            /*            width: 30px;*/
-            /*            padding: 10px;*/
-            background: #222;
+            background: #333;
         }
 
         .values {
             color: white;
             font-size: 15px;
         }
-
-        .moonpic {
-            width: 50px;
     </style>
 
 
@@ -57,7 +40,7 @@
             <tr>
                 <template is="dom-repeat" items="{{data}}">
                     <td>
-                        <span class='moonPhase' style$="left:{{item.overlay.left}}%; right:{{item.overlay.right}}%;"></span>
+                        <span class='hidden' style$="left:{{left(item.phase,item.visible)}}%; right:{{right(item.phase,item.visible)}}%;"></span>
                         <img style='width:100%;' src='bin/moon.png' />
                         <!--                        <span class='moon'></span>-->
                     </td>
@@ -66,7 +49,7 @@
             <tr class='values'>
                 <template is="dom-repeat" items="{{data}}">
                     <td>
-                        {{item.visible}}
+                        {{percent(item.visible)}}
                     </td>
                 </template>
             </tr>
@@ -94,37 +77,15 @@
         ready: function () {
             //            console.log('rain-prob', data);
         },
-        relSize: function (value) {
-            return value * 2;
+        left: function (phase, full) {
+            return phase <= 0.5 ? 0 : full * 100;
         },
-        abs: function (val) {
-            return Math.abs(val);
+        right: function (phase, full) {
+            return phase >= 0.5 ? 0 : full * 100;
         },
-        mod: function (val) {
-            return 100 - Math.abs(val);
-        },
+        percent: function (value) {
+            return Math.round(value * 100);
+        }
 
     });
 </script>
-
-
-
-
-
-<!--
-<tr class='values'>
-    <template is="dom-repeat" items="{{data}}">
-        <td>{{item.phase}}</td>
-    </template>
-</tr>
-<tr class='values'>
-    <template is="dom-repeat" items="{{data}}">
-        <td>{{item.overlay.left}}-{{item.overlay.right}}</td>
-    </template>
-</tr>-->
-<!--
-<tr class='labels'>
-    <template is="dom-repeat" items="{{labels}}">
-        <td>{{item}}</td>
-    </template>
-</tr>-->
