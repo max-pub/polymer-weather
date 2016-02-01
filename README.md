@@ -3,9 +3,8 @@
 ## Charts
 [Demo](http://lib.max.pub/polymer/weather/charts)
 
-See daily min- & max-temperature.
 ```HTML
-<temp-range data='[{"min":10,"max":15},{"min":10,"max":15},{"min":10,"max":15}]'></temp-range>
+<temperature-range data='[ {"min":10,"max":15}, ..., ...]'></temperature-range>
 ```
 
 ```HTML

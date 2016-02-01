@@ -1,0 +1,130 @@
+<link rel="import" href="weather-dot.html">
+<link rel="import" href="../../polymer-date-time/time-format.html">
+
+
+<dom-module id="weather-dots-24-7">
+    <template>
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td {
+                padding: 1px;
+            }
+
+            .day {
+                color: silver;
+                text-align: left !important;
+            }
+            /*
+            .day /deep/ span {
+                font-size: 18px;
+                font-weight: 100 !important;
+            }
+
+            .month /deep/ span {
+                color: #ccc;
+                font-size: 10px;
+                font-weight: 100 !important;
+            }
+
+            .month .number /deep/ span {
+                font-weight: 100 !important;
+                font-size: 20px;
+            }
+*/
+
+            .hours td {
+                text-align: center;
+                color: silver;
+                font-size: 10px;
+            }
+
+            .hours td span {
+                font-size: 14px;
+            }
+
+            time-format {
+                font-weight: 300px;
+                /*                font-size: 17px;*/
+            }
+
+            .monthNumber {
+                font-size: 19px;
+            }
+
+            .monthName {
+                font-size: 11px;
+            }
+
+            .dayName {
+                font-size: 17px;
+            }
+        </style>
+
+
+        <table id='dots247'>
+            <tr>
+                <td></td>
+                <template is="dom-repeat" items="[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]" as='hour'>
+                    <td>
+                        <span>{{hour}}</span> <sup>00</sup>
+                    </td>
+                </template>
+                <td></td>
+            </tr>
+            <template is="dom-repeat" items="{{data}}" as='day'>
+                <tr class='weather-day'>
+                    <td class='month'>
+                        <time-format class='monthNumber' time="{{date(day)}}" format="DD"></time-format>
+                        <time-format class='monthName' time="{{date(day)}}" format="MMM"></time-format>
+                    </td>
+                    <template is="dom-repeat" items="{{day}}" as='hour'>
+                        <td class='weather-hour'>
+                            <weather-dot style$="width:{{size}}px; height:{{size}}px;" data='{{hour}}'></weather-dot>
+                        </td>
+                    </template>
+                    <td class='day'>
+                        <time-format class='dayName' time="{{date(day)}}" format="DDD"></time-format>
+                    </td>
+                </tr>
+            </template>
+            <tr>
+                <td></td>
+                <template is="dom-repeat" items="[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]" as='hour'>
+                    <td>
+                        <span>{{hour}}</span> <sup>00</sup>
+                    </td>
+                </template>
+                <td></td>
+            </tr>
+        </table>
+    </template>
+    <script>
+        Polymer({
+            is: 'weather-dots-24-7',
+            properties: {
+                data: Array
+            },
+            ready: function () {
+                WD24 = this;
+                console.log("WEATHER-TABLE");
+                var size = Math.round(WD24.$.dots247.offsetWidth / 46);
+                this.set('size', size);
+                window.addEventListener('resize', function () {
+                    var size = Math.round(WD24.$.dots247.offsetWidth / 46);
+                    console.log('resize', size);
+                    this.set('size', size);
+                }.bind(this), true);
+            },
+            date: function (day) {
+                for (var i in day)
+                    if (day[i])
+                        if (day[i].date)
+                            return day[i].date;
+            }
+        });
+    </script>
+</dom-module>

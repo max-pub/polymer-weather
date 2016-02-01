@@ -1,0 +1,30 @@
+<link rel="import" href="../../Load-Store-Cache/ajax-stream.html">
+
+<dom-module id="forecast-io-cache">
+    <template>
+        <ajax-stream url="http://api.sun.max.pub/get?lat={{lat}}&lon={{lon}}&range={{range}}" on-finish="processData">
+        </ajax-stream>
+    </template>
+    <script>
+        Polymer({
+            is: 'forecast-io-cache',
+
+            properties: {
+                lat: String,
+                lon: String,
+                range: String,
+                data: {
+                    type: Object,
+                    notify: true
+                }
+            },
+            ready: function () {
+                this.data = {};
+            },
+            processData: function (event, data) { //event,request,element){
+                this.set('forecast-io-cache data:', JSON.parse(data))
+                console.log('data', this.data);
+            }
+        });
+    </script>
+</dom-module>

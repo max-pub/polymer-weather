@@ -7,30 +7,39 @@
 
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <!--    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>-->
+    <!--    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,500' rel='stylesheet' type='text/css'>-->
+    <!--    <link href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css' rel='stylesheet' type='text/css'>-->
+    <!--    <link href='https://cdn.jsdelivr.net/picnicss/5.0.1/picnic.min.css' rel='stylesheet' type='text/css'>-->
+    <!--    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">-->
+    <!--    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>-->
+    <link href='//lib.max.pub/max.min.css' rel='stylesheet' type='text/css'>
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../../polymer/polymer.html">
 
-    <link rel="import" href="../data/forecast-io.html">
+    <script src="../../Load-Store-Cache/AJAX.js"></script>
+
+    <!--    <link rel="import" href="../data/forecast-io-cache.html">-->
     <link rel="import" href="weather-dot.html">
+    <link rel="import" href="weather-dots-24-7.html">
 
 </head>
 
 <body>
-    <style>
-        * {
-            font-family: "Source Sans Pro";
-        }
-
-        main {
-            width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
     <dom-module id='demo-tag'>
         <style>
+            * {
+                font-family: "Source Sans Pro";
+            }
+            /*
+
+            main {
+                width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+*/
+
             a {
                 text-decoration: none;
                 color: #00a;
@@ -38,71 +47,97 @@
 
             weather-dot {
                 display: inline-block;
-                -webkit-border-radius: 5px;
-                background: #f5f5f5;
+                /*                -webkit-border-radius: 5px;*/
+                /*                background: #f5f5f5;*/
+            }
+            /*            .dotDemo td:first-child {}*/
+
+            .dotDemo {
+                display: inline-block;
+                width: 100px;
+                height: 180px;
+                vertical-align: top;
+                margin: 20px;
+            }
+
+            .dotDemo weather-dot {
+                width: 100px;
+                height: 100px;
+            }
+
+            .dotDemo h3 {
+                margin: 0;
+                font-weight: 600;
+            }
+
+            main {
+                /*                display: block;*/
+                /*                border: 1px solid red;*/
+                width: 80%;
+                margin-left: auto;
+                margin-right: auto;
             }
         </style>
+
         <template>
-            <h1>Weather Dot Components</h1>
-            <a href="https://github.com/max-pub/polymer-weather">see source on GitHub</a>
-            <br/>
-            <br/>
-            <table>
-                <tr>
-                    <td>
+            <main>
+                <h1>Weather Dots</h1>
+                <a href="https://github.com/max-pub/polymer-weather">see source on GitHub</a>
+                <br/>
+                <br/>
+                <!--
+<pre class='prettify'>
                         <weather-dot data='{{dot1}}'></weather-dot>
-                    </td>
-                    <td>
-                        <weather-dot data='{{dot2}}'></weather-dot>
-                    </td>
-                    <td>
-                        <weather-dot data='{{dot3}}'></weather-dot>
-                    </td>
-                    <td>
-                        <weather-dot data='{{dot4}}'></weather-dot>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Temperature
-                    </td>
-                    <td>
-                        Clouds &amp; Rain
-                    </td>
-                    <td>
-                        Wind
-                    </td>
-                    <td>
-                        Moon
-                    </td>
-                </tr>
+            </pre>-->
+                <h2>Single Dots</h2>
+                <div class='dotDemo'>
+                    <weather-dot data='{{dot1}}'></weather-dot>
+                    <h3>Temperature</h3>
+                    <b>{{dot1.temperature.real}}</b> <i>&deg;C</i>
+                </div>
+                <div class='dotDemo'>
+                    <weather-dot data='{{dot2}}'></weather-dot>
+                    <h3>Clouds</h3>
+                    <b>{{percent(dot2.cloudCover)}}</b> <i>%</i>
+                </div>
+                <div class='dotDemo'>
+                    <weather-dot data='{{dot3}}'></weather-dot>
+                    <h3>Rain</h3>
+                    <b>{{percent(dot3.precipitation.probability)}}</b> <i>%</i>
+                </div>
+                <div class='dotDemo'>
+                    <weather-dot data='{{dot4}}'></weather-dot>
+                    <h3>Wind</h3>
+                    <b>{{dot4.wind.speed}}</b> <i>m/s</i>
+                    <br/>
+                    <b>{{dot4.wind.bearing}}</b> <i>&deg;</i>
+                </div>
+                <div class='dotDemo'>
+                    <weather-dot data='{{dot5}}'></weather-dot>
+                    <h3>Moon</h3>
+                    <b>{{percent(dot5.moon.visible)}}</b> <i>%</i>
+                </div>
 
-            </table>
-
-            <br/>
-            <br/>
-            <input placeholder='latitude' value="{{lat::input}}" />
-            <input placeholder='longitude' value="{{lon::input}}" />
-            <br/>
-            <button on-click="setPos" lat='40.7127' lon='-74.0059'>New York</button>
-            <button on-click="setPos" lat='37.7833' lon='-122.4167'>San Francisco</button>
-            <button on-click="setPos" lat='20.9700' lon='-89.6200'>Merida</button>
-            <br/>
-            <button on-click="setPos" lat='39.9167' lon='116.3833'>Bejing</button>
-            <button on-click="setPos" lat='7.5667' lon='126.9667'>Seoul</button>
-            <button on-click="setPos" lat='13.7563' lon='100.5018'>Bangkok</button>
-            <button on-click="setPos" lat='9.7368' lon='98.4020'>Ko Phayam</button>
-            <br/>
-            <button on-click="setPos" lat='53.5653' lon='10.0014'>Hamburg</button>
-            <button on-click="setPos" lat='48.2000' lon='16.3667'>Vienna</button>
-            <button on-click="setPos" lat='48.8567' lon='2.3508'>Paris</button>
-            <button on-click="setPos" lat='40.4000' lon='3.7167'>Madrid</button>
-            <button on-click="setPos" lat='41.3833' lon='2.1833'>Barcelona</button>
-            <br/>
-            <br/>
-
-            <!--            <forecast-io lat="{{lat}}" lon="{{lon}}" data="{{data}}"></forecast-io>-->
-
+                <h2>Full Week</h2>
+                <button on-click="setPos" lat='40.7127' lon='-74.0059'>New York</button>
+                <button on-click="setPos" lat='37.7833' lon='-122.4167'>San Francisco</button>
+                <button on-click="setPos" lat='20.9700' lon='-89.6200'>Merida</button>
+                <button on-click="setPos" lat='-34.6033' lon='-58.3817'>Buenos Aires</button>
+                <button on-click="setPos" lat='-22.9068' lon='-43.1729'>Rio de Janeiro</button>
+                <button on-click="setPos" lat='39.9167' lon='116.3833'>Bejing</button>
+                <button on-click="setPos" lat='7.5667' lon='126.9667'>Seoul</button>
+                <button on-click="setPos" lat='13.7563' lon='100.5018'>Bangkok</button>
+                <button on-click="setPos" lat='9.7368' lon='98.4020'>Ko Phayam</button>
+                <button on-click="setPos" lat='53.5653' lon='10.0014'>Hamburg</button>
+                <button on-click="setPos" lat='48.2000' lon='16.3667'>Vienna</button>
+                <button on-click="setPos" lat='48.8567' lon='2.3508'>Paris</button>
+                <button on-click="setPos" lat='40.4000' lon='3.7167'>Madrid</button>
+                <button on-click="setPos" lat='41.3833' lon='2.1833'>Barcelona</button>
+                <br/>
+                <br/>
+                <!--            <forecast-io-cache lat="{{lat}}" lon="{{lon}}" range='hours' data="{{hours}}"></forecast-io-cache>-->
+                <weather-dots-24-7 data="{{hours}}"></weather-dots-24-7>
+            </main>
 
         </template>
     </dom-module>
@@ -118,32 +153,49 @@
             },
             ready: function () {
                 DEMO = this;
-                this.set('dot1', DOT1);
-                this.set('dot2', DOT2);
-                this.set('dot3', DOT3);
-                this.set('dot4', DOT4);
+                this.set('dot1', JSON.parse(JSON.stringify(baseDot)));
+                this.set('dot2', JSON.parse(JSON.stringify(baseDot)));
+                this.set('dot3', JSON.parse(JSON.stringify(baseDot)));
+                this.set('dot4', JSON.parse(JSON.stringify(baseDot)));
+                this.set('dot5', JSON.parse(JSON.stringify(baseDot)));
+
+                this.set('dot1.temperature.max', true);
+                this.set('dot5.light', 0);
                 this.repeat();
+                AJAX.get('../data/hours.json')
+                    .then(function (result) {
+                        this.set('hours', result);
+                    }.bind(this));
             },
             repeat: function () {
                 console.log('repeat now');
-                this.set('dot1.temperature.feel', (this.dot1.temperature.feel + 40 + 5) % 80 - 40);
+                this.set('dot1.temperature.real', (this.dot1.temperature.real + 40 + 5) % 80 - 40);
 
                 this.set('dot2.cloudCover', (this.dot2.cloudCover + 0.1) % 1);
-                this.set('dot2.precipitation.probability', (this.dot2.precipitation.probability + 0.1) % 1);
+                this.set('dot3.precipitation.probability', (this.dot3.precipitation.probability + 0.1) % 1);
 
-                this.set('dot3.wind.speed', (this.dot3.wind.speed + 1) % 25);
-                this.set('dot3.wind.bearing', (this.dot3.wind.bearing + 10) % 360);
+                this.set('dot4.wind.speed', (this.dot4.wind.speed + 1) % 25);
+                this.set('dot4.wind.bearing', (this.dot4.wind.bearing + 10) % 360);
 
-                this.set('dot4.moon.phase', (this.dot4.moon.phase + 0.1) % 1);
-                this.set('dot4.moon.visible', (1 - Math.abs(this.dot4.moon.phase * 2 - 1)));
-                console.log('---moon', Math.round(this.dot4.moon.phase * 100), Math.round(this.dot4.moon.visible * 100));
+                this.set('dot5.moon.phase', (this.dot5.moon.phase + 0.1) % 1);
+                this.set('dot5.moon.visible', (1 - Math.abs(this.dot5.moon.phase * 2 - 1)));
 
-                this.debounce('repeat', this.repeat, 500);
+                this.debounce('repeat', this.repeat, 300);
             },
             setPos: function (ev) {
                 console.log('click', ev.target);
                 this.lat = ev.target.getAttribute('lat');
                 this.lon = ev.target.getAttribute('lon');
+                AJAX.get('http://api.sun.max.pub/get')
+                    .parameters({
+                        lat: this.lat,
+                        lon: this.lon,
+                        range: 'hours'
+                    })
+                    .then(function (result) {
+                        this.set('hours', result);
+                    }.bind(this));
+
             },
             dataChange: function () {
                 return;
@@ -152,88 +204,40 @@
                 else var hour = {};
                 console.log('day', hour);
                 this.set('hour', hour);
+            },
+            percent: function (value) {
+                return Math.round(value * 100);
             }
         })
     </script>
 
     <script>
-        DOT1 = {
-            "temperature": {
-                "feel": -40,
-                "max": true
+        baseDot = {
+            date: '2000-01-01',
+            temperature: {
+                real: 25,
+                feel: 25
             },
-            "precipitation": {
-                "type": "rain",
-                "intensity": 1,
-                "probability": 0.5
+            precipitation: {
+                type: 'rain',
+                intensity: 0,
+                probability: 0
             },
-            "light": 1,
-            "cloudCover": 0.43,
-            "hour": 20
-        };
-        DOT2 = {
-            "temperature": {
-                "feel": 20,
-                "max": false
+            moon: {
+                phase: 0,
+                visible: 0
             },
-            "precipitation": {
-                "type": "rain",
-                "intensity": 1,
-                "probability": 0
+            wind: {
+                speed: 0,
+                bearing: 0
             },
-            "wind": {
-                "speed": 0,
-                "bearing": 127
-            },
-            "light": 1,
-            "cloudCover": 0,
-            "hour": 20
-        };
-        DOT3 = {
-            "temperature": {
-                "feel": 30,
-                "max": false
-            },
-            "precipitation": {
-                "type": "rain",
-                "intensity": 1,
-                "probability": 0
-            },
-            "wind": {
-                "speed": 0,
-                "bearing": 127
-            },
-            "light": 1,
-            "cloudCover": 0,
-            "hour": 20
-        };
-        DOT4 = {
-            "temperature": {
-                "feel": 30,
-                "max": false
-            },
-            "precipitation": {
-                "type": "rain",
-                "intensity": 1,
-                "probability": 0
-            },
-            "wind": {
-                "speed": 0,
-                "bearing": 127
-            },
-            "moon": {
-                "phase": 0,
-                "visible": 0
-            },
-            "light": 0,
-            "cloudCover": 0,
-            "hour": 22
-        };
+            light: 1,
+            cloudCover: 0,
+            hour: 20
+        }
     </script>
 
-    <main>
-        <demo-tag></demo-tag>
-    </main>
+    <demo-tag></demo-tag>
 
 </body>
 

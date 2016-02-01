@@ -85,7 +85,9 @@
             <forecast-io lat="{{lat}}" lon="{{lon}}" data="{{data}}"></forecast-io>
             <convert-data input="{{data}}" output="{{converted}}"></convert-data>
 
+            <!--            <h3>temperature-range</h3>-->
             <temperature-range data="{{converted.temperature}}"></temperature-range>
+            <!--            <h3>cloud-cover</h3>-->
             <cloud-cover data="{{converted.cloudCover}}"></cloud-cover>
             <rain-bucket data="{{converted.precipitation}}"></rain-bucket>
             <wind-speed data="{{converted.wind}}"></wind-speed>
