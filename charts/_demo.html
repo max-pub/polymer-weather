@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+
+<head>
+
+    <title>Weather Charts</title>
+
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <!--    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>-->
+    <link href='//lib.max.pub/style/colors.min.css' rel='stylesheet' type='text/css'>
+    <link href='//lib.max.pub/style/font.source.min.css' rel='stylesheet' type='text/css'>
+    <link href='//lib.max.pub/style/base.min.css' rel='stylesheet' type='text/css'>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../../polymer/polymer.html">
+
+    <!--    <script src="../../Load-Store-Cache/AJAX.js"></script>-->
+
+    <link rel="import" href="../data/big-cities.html">
+    <link rel="import" href="cloud-cover.html">
+    <link rel="import" href="day-light.html">
+    <link rel="import" href="moon-phase.html">
+    <link rel="import" href="rain-bucket.html">
+    <link rel="import" href="temperature-range.html">
+    <link rel="import" href="wind-speed.html">
+
+</head>
+
+<body>
+    <dom-module id='demo-tag'>
+        <style>
+            temperature-range,
+            rain-bucket,
+            cloud-cover,
+            moon-phase,
+            day-light,
+            wind-speed {
+                color: white;
+                padding: 1px 10px;
+                margin: 10px 0px;
+                display: block;
+                -webkit-border-radius: 5px;
+                background: #333;
+            }
+        </style>
+
+
+        <template>
+            <article class='A5'>
+                <h1>Weather Charts</h1>
+                <a href="https://github.com/max-pub/polymer-weather">see source on GitHub</a>
+                <br/>
+                <br/>
+
+                <h2>Load Live Data</h2>
+                <big-cities days="{{days}}" hours="{{hours}}"></big-cities>
+
+                <br/>
+                <br/>
+                <h2>Week</h2>
+                <temperature-range data="{{section.temperature}}"></temperature-range>
+                <cloud-cover data="{{section.cloudCover}}"></cloud-cover>
+                <rain-bucket data="{{section.precipitation}}"></rain-bucket>
+                <wind-speed data="{{section.wind}}"></wind-speed>
+                <day-light data="{{section.light}}"></day-light>
+                <moon-phase data="{{section.moon}}"></moon-phase>
+            </article>
+        </template>
+    </dom-module>
+
+
+
+    <script>
+        Polymer({
+            is: 'demo-tag',
+            properties: {
+                days: {
+                    type: Array,
+                    observer: 'processData'
+                }
+            },
+
+            processData: function () {
+                var DATA = {
+                    temperature: [],
+                    precipitation: [],
+                    wind: [],
+                    light: [],
+                    cloudCover: [],
+                    moon: []
+                };
+                var data = this.days;
+                for (day in data) {
+                    var d = data[day];
+                    DATA.temperature.push(d.temperature);
+                    DATA.light.push(d.light);
+                    DATA.precipitation.push(d.precipitation);
+                    DATA.wind.push(d.wind);
+                    DATA.moon.push(d.moon);
+                    DATA.cloudCover.push(d.cloudCover);
+                }
+                this.set('section', DATA);
+            }
+        });
+    </script>
+
+    <demo-tag></demo-tag>
+</body>
+
+</html>

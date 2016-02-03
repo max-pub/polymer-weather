@@ -1,0 +1,93 @@
+<script src="../../Load-Store-Cache/AJAX.js"></script>
+
+<dom-module id="big-cities">
+    <style>
+
+    </style>
+    <template>
+        <b>Europe</b>
+        <button on-click="loadLocation" lat='59.3294' lon='18.0686'>Stockholm</button>
+        <button on-click="loadLocation" lat='51.5072' lon='-0.1275'>London</button>
+        <button on-click="loadLocation" lat='52.5167' lon='13.3833'>Berlin</button>
+        <button on-click="loadLocation" lat='50.0833' lon='14.4167'>Prague</button>
+        <button on-click="loadLocation" lat='48.2000' lon='16.3667'>Vienna</button>
+        <button on-click="loadLocation" lat='48.8567' lon='2.3508'>Paris</button>
+        <button on-click="loadLocation" lat='41.9000' lon='12.5000'>Rome</button>
+        <button on-click="loadLocation" lat='40.4000' lon='3.7167'>Madrid</button>
+        <button on-click="loadLocation" lat='55.7500' lon='37.6167'>Moscow</button>
+        <!--        <button on-click="loadLocation" lat='53.5653' lon='10.0014'>Hamburg</button>-->
+        <!--        <button on-click="loadLocation" lat='41.3833' lon='2.1833'>Barcelona</button>-->
+        <br/>
+        <b>America</b>
+        <button on-click="loadLocation" lat='40.7127' lon='-74.0059'>New York</button>
+        <button on-click="loadLocation" lat='37.7833' lon='-122.4167'>San Francisco</button>
+        <button on-click="loadLocation" lat='19.4333' lon='-99.1333'>Mexico City</button>
+        <button on-click="loadLocation" lat='-34.6033' lon='-58.3817'>Buenos Aires</button>
+        <button on-click="loadLocation" lat='-22.9068' lon='-43.1729'>Rio de Janeiro</button>
+        <!--        <button on-click="loadLocation" lat='20.9700' lon='-89.6200'>Merida</button>-->
+        <br/>
+        <b>Asia</b>
+        <button on-click="loadLocation" lat='41.0136' lon='28.9550'>Istanbul</button>
+        <button on-click="loadLocation" lat='35.6961' lon='51.4231'>Teheran</button>
+        <button on-click="loadLocation" lat='28.6139' lon='77.2090'>Delhi</button>
+        <button on-click="loadLocation" lat='39.9167' lon='116.3833'>Bejing</button>
+        <button on-click="loadLocation" lat='35.6833' lon='139.6833'>Tokio</button>
+        <button on-click="loadLocation" lat='7.5667' lon='126.9667'>Seoul</button>
+        <button on-click="loadLocation" lat='13.7563' lon='100.5018'>Bangkok</button>
+        <button on-click="loadLocation" lat='-33.8650' lon='151.2094'>Sydney</button>
+        <br/>
+        <b>Bonus</b>
+        <button on-click="loadLocation" lat='48.1333' lon='11.5667' class='blueBG'>Munich</button>
+        <button on-click="loadLocation" lat='9.7368' lon='98.4020' class='blueBG'>Ko Phayam</button>
+    </template>
+    <script>
+        Polymer({
+            is: 'big-cities',
+
+            properties: {
+                data: {
+                    type: Object,
+                    notify: true
+                },
+                days: {
+                    type: Array,
+                    notify: true
+                },
+                hours: {
+                    type: Array,
+                    notify: true
+                },
+            },
+            ready: function () {
+                //                this.data = {};
+                AJAX.get('../data/all.json').then(this.setData.bind(this));
+            },
+            loadLocation: function (ev) {
+                //                console.log('loadLocation', ev.target);
+                AJAX.get('http://api.sun.max.pub/get')
+                    .parameters({
+                        lat: ev.target.getAttribute('lat'),
+                        lon: ev.target.getAttribute('lon')
+                    })
+                    .then(this.setData.bind(this));
+
+            },
+            setData: function (data) {
+                this.set('data', data);
+                var days = [];
+                var hours = [];
+                for (var date in data) {
+                    days.push(data[date].day);
+                    var tmp = [];
+                    for (var i = 0; i < 24; i++) {
+                        tmp.push(data[date].hours[i > 9 ? i : '0' + i]); // left pad "0"!!
+                    }
+                    hours.push(tmp);
+                }
+                this.set('days', days);
+                this.set('hours', hours);
+                console.log('hours', this.hours);
+            }
+        });
+    </script>
+</dom-module>

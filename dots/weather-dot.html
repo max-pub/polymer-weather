@@ -1,5 +1,9 @@
 <dom-module id="weather-dot">
     <style>
+        :host {
+            display: inline-block;
+        }
+
         .dot {
             position: relative;
             border-radius: 1000px;
@@ -49,7 +53,7 @@
             right: 0;
             bottom: 0;
             left: 0;
-            font-size: 30px;
+            /*            font-size: 30px;*/
             font-weight: 400 !important;
             padding-top: 8px;
             color: white;
@@ -158,7 +162,7 @@
                     <span class='clouds' style$="bottom:{{cloudCurtain(data.cloudCover)}}%;"></span>
                     <span class='rain' style='opacity: 0.5;'>
                         <template is="dom-repeat" items="{{raindrops(data.precipitation.probability)}}">
-                            <img src='bin/raindrop.png' class='drop'>
+                            <img src$='bin/{{data.precipitation.type}}.png' class='drop'>
                         </template>
                     </span>
                     <img class='wind' src='bin/wind.png' style$='margin-top:{{windMargin(data.wind.speed)}}%; width:{{windSize(data.wind.speed)}}%; -webkit-transform:rotate({{data.wind.bearing}}deg)' />
@@ -185,7 +189,7 @@
                 type: Object,
                 observer: 'dataChanged',
                 value: {
-                    date: '2000-01-01',
+                    //                    date: '2000-01-01',
                     temperature: {
                         real: 25,
                         feel: 25
