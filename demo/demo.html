@@ -1,31 +1,21 @@
-<!doctype html>
-<html>
+<title>Weather Charts</title>
 
-<head>
+<link href='../../style/base.css' rel='stylesheet' type='text/css'>
+<link href='../../style/icon-list.css' rel='stylesheet' type='text/css'>
+<link href='../../style/font/source.code.300.css' rel='stylesheet' type='text/css'>
 
-    <title>Weather Charts</title>
+<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="../../polymer/polymer.html">
 
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <!--    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>-->
-    <link href='//lib.max.pub/style/colors.min.css' rel='stylesheet' type='text/css'>
-    <link href='//lib.max.pub/style/font.source.min.css' rel='stylesheet' type='text/css'>
-    <link href='//lib.max.pub/style/base.min.css' rel='stylesheet' type='text/css'>
+<link rel="import" href="demo.cities.html">
+<link rel="import" href="../cloud-cover.html">
+<link rel="import" href="../day-light.html">
+<link rel="import" href="../moon-phase.html">
+<link rel="import" href="../rain-bucket.html">
+<link rel="import" href="../temperature-range.html">
+<link rel="import" href="../wind-speed.html">
 
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../../polymer/polymer.html">
-
-    <!--    <script src="../../Load-Store-Cache/AJAX.js"></script>-->
-
-    <link rel="import" href="../data/big-cities.html">
-    <link rel="import" href="cloud-cover.html">
-    <link rel="import" href="day-light.html">
-    <link rel="import" href="moon-phase.html">
-    <link rel="import" href="rain-bucket.html">
-    <link rel="import" href="temperature-range.html">
-    <link rel="import" href="wind-speed.html">
-
-</head>
 
 <body>
     <dom-module id='demo-tag'>
@@ -42,6 +32,7 @@
                 display: block;
                 -webkit-border-radius: 5px;
                 background: #333;
+                font-family: Helvetica !important;
             }
         </style>
 
@@ -50,21 +41,24 @@
             <article class='A5'>
                 <h1>Weather Charts</h1>
                 <a href="https://github.com/max-pub/polymer-weather">see source on GitHub</a>
-                <br/>
-                <br/>
 
+                <br/>
+                <br/>
+                <!--                <h2>Week</h2>-->
+                <div>
+                    <temperature-range data="{{section.temperature}}"></temperature-range>
+                    <cloud-cover data="{{section.cloudCover}}"></cloud-cover>
+                    <rain-bucket data="{{section.precipitation}}"></rain-bucket>
+                    <wind-speed data="{{section.wind}}"></wind-speed>
+                    <day-light data="{{section.light}}"></day-light>
+                    <moon-phase data="{{section.moon}}"></moon-phase>
+                </div>
+
+                <br/>
+                <br/>
                 <h2>Load Live Data</h2>
-                <big-cities days="{{days}}" hours="{{hours}}"></big-cities>
+                <demo-cities days="{{days}}" hours="{{hours}}"></demo-cities>
 
-                <br/>
-                <br/>
-                <h2>Week</h2>
-                <temperature-range data="{{section.temperature}}"></temperature-range>
-                <cloud-cover data="{{section.cloudCover}}"></cloud-cover>
-                <rain-bucket data="{{section.precipitation}}"></rain-bucket>
-                <wind-speed data="{{section.wind}}"></wind-speed>
-                <day-light data="{{section.light}}"></day-light>
-                <moon-phase data="{{section.moon}}"></moon-phase>
             </article>
         </template>
     </dom-module>
@@ -107,5 +101,3 @@
 
     <demo-tag></demo-tag>
 </body>
-
-</html>
