@@ -1,8 +1,11 @@
 <dom-module id="moon-phase">
     <style>
+        h3{
+            color: var(--title-color);
+        }
         h3 span:last-child {
             float: right;
-            color: silver;
+            color: var(--unit-color);
         }
 
         table {
@@ -21,7 +24,8 @@
             position: absolute;
             display: inline-block;
             height: 100%;
-            background: #333;
+            /*background: #333;*/
+            background: var(--background-color);
         }
 
         .values {

@@ -2,17 +2,17 @@
     "name": "weather-charts",
     "version": "0.0.0",
     "authors": [
-    "Max Fechner <max.fechner@gmail.com>"
-  ],
+        "Max Fechner <max.fechner@gmail.com>"
+    ],
     "license": "MIT",
     "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
     "dependencies": {
-        "polymer": "Polymer/polymer#~1.2.3",
+        "polymer": "Polymer/polymer#~1.2.3"
     }
 }

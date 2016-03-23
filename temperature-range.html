@@ -1,8 +1,11 @@
 <dom-module id="temperature-range">
     <style>
+        h3{
+            color: var(--title-color);
+        }
         h3 span:last-child {
             float: right;
-            color: silver;
+            color: var(--unit-color);
         }
 
         table {
@@ -91,7 +94,9 @@
 
 
         dataChange: function () {
+            console.log("TEMPERATURE CHANGE",this.data);
             this.unit = 'Celsius';
+            if(!this.data) return;
             for (var i = 0; i < this.data.length; i++) {
                 this.data[i].min = this.data[i].real.min;
                 this.data[i].max = this.data[i].real.max;

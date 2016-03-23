@@ -1,8 +1,11 @@
 <dom-module id="rain-bucket">
     <style>
+        h3{
+            color: var(--title-color);
+        }
         h3 span:last-child {
             float: right;
-            color: silver;
+            color: var(--unit-color);
         }
 
         td {
@@ -52,12 +55,12 @@
                         <div class='bucket'>
                             <div class='left'>
                                 <template is="dom-repeat" items="{{leftDrops(item)}}" as="drop">
-                                    <img class='drop' src$="bin/{{item.type}}.png" />
+                                    <img class='drop' src$="build/bin/{{item.type}}.png" />
                                 </template>
                             </div>
                             <div class='right'>
                                 <template is="dom-repeat" items="{{rightDrops(item)}}" as="drop">
-                                    <img class='drop' src$="bin/{{item.type}}.png" />
+                                    <img class='drop' src$="build/bin/{{item.type}}.png" />
                                 </template>
                             </div>
                         </div>

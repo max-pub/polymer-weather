@@ -1,4 +1,4 @@
-<dom-module id="wind-speed">
+<dom-module id="humi-dity">
     <style>
         h3{
             color: var(--title-color);
@@ -17,7 +17,9 @@
             width: 11%;
             overflow: hidden;
         }
-
+        img{
+            width:100%;
+        }
         .labels {
             color: white;
         }
@@ -30,19 +32,19 @@
 
     <template>
         <h3>
-            <span>Wind</span>
-            <span>in km/h</span>
+            <span>Humidity</span>
+            <span>in %</span>
         </h3>
 
         <table>
             <tr>
                 <template is="dom-repeat" items="{{data}}">
-                    <td> <img src='bin/wind.png' style$='width:{{size(item.speed)}}px; -webkit-transform:rotate({{item.bearing}}deg)' /> </td>
+                    <td> <img src='bin/rain.png' style$='opacity:{{item}};' /> </td>
                 </template>
             </tr>
             <tr class='values'>
                 <template is="dom-repeat" items="{{data}}">
-                    <td>{{value(item.speed)}}</td>
+                    <td>{{value(item)}}</td>
                 </template>
             </tr>
         </table>
@@ -56,17 +58,13 @@
 
 <script>
     Polymer({
-        is: "wind-speed",
+        is: "humi-dity",
         properties: {
             data: Array,
             labels: Array
         },
-        size: function (value) {
-            //            console.log('size', value)
-            return Math.round(value * 3.6); // m/s -> km/h
-        },
         value: function (value) {
-            return Math.round(value * 3.6);
+            return Math.round(value *100);
         }
     });
 </script>
