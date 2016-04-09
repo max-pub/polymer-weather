@@ -2,6 +2,7 @@
     <style>
         h3{
             color: var(--title-color);
+            font-weight: 300;
         }
         h3 span:last-child {
             float: right;
@@ -94,7 +95,7 @@
 
 
         dataChange: function () {
-            console.log("TEMPERATURE CHANGE",this.data);
+            // console.log("TEMPERATURE CHANGE",this.data);
             this.unit = 'Celsius';
             if(!this.data) return;
             for (var i = 0; i < this.data.length; i++) {
