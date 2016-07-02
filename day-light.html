@@ -160,10 +160,10 @@
             for (var i = 0; i < this.data.length; i++)
                 durations.push(this.length(this.data[i].duration));
             //            console.log('durations', Math.round(Math.min.apply(0, durations) / 5), durations);
-            return Math.round(Math.min.apply(0, durations) / 10);
+            return Math.round(Math.min.apply(0, durations) / 12);
         },
         changeBar: function (item) {
-            return Math.round((this.length(item.duration) - this.baseBar() * 10) * 2);
+            return Math.round((this.length(item.duration) - this.baseBar() * 12) * 2);
         }
 
     });

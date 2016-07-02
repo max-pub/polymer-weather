@@ -122,14 +122,17 @@
             return Math.abs(item.min - this.base) * 10;
         },
         tempBar: function (item) {
-            return Math.abs(item.max - item.min) * 10;
+            // return Math.abs(item.max - item.min) * 10;
+            return Math.abs(item.max - item.min) * 8;
         },
 
 
         // coloring...
         color: function (value) {
-            if (value > 0) return (50 - value);
-            else return 200 - value;
+            // if (value > 0) return (50 - value);
+            // else return 200 - value;
+            if (value > 0) return (40 - value);
+            else return 180 - value;
         },
         opacity: function (value) {
             return 1;
